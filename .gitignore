@@ -1,0 +1,7 @@
+.vs
+.vscode
+*bin
+*obj
+*Properties
+Readme.txt
+README2.md
