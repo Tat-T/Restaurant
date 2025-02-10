@@ -1,7 +1,8 @@
 .vs
 .vscode
-*bin
-*obj
+bin/
+obj/
 *Properties
 Readme.txt
 README2.md
+.config/
