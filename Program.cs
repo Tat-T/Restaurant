@@ -6,34 +6,32 @@ using System;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using MyRazorApp.Pages.Admin;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
+builder.Services.AddSession();
 
-builder.Services.AddDbContext<AppDbContext>(options =>
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
-void SeedDatabase(AppDbContext context)
-{
-    if (!context.Admins.Any())
-    {
-        using var sha256 = SHA256.Create();
-        var passwordHash = sha256.ComputeHash(Encoding.UTF8.GetBytes("admin123"));
-        var hashString = BitConverter.ToString(passwordHash).Replace("-", "").ToLower();
-
-        context.Admins.Add(new Admin { Username = "admin", PasswordHash = hashString });
-        context.SaveChanges();
-    }
-}
-
+app.UseSession();
 
 using (var scope = app.Services.CreateScope())
 {
-    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    dbContext.Database.EnsureCreated();
-    SeedDatabase(dbContext);
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+    if (!db.AdminUsers.Any())
+    {
+        db.AdminUsers.Add(new AdminUser
+        {
+            Username = "admin",
+            PasswordHash = ComputeSha256Hash("12345") // Вынесем метод отдельно
+        });
+        db.SaveChanges();
+    }
 }
 
 app.UseStaticFiles();
@@ -42,3 +40,18 @@ app.UseAuthorization();
 app.MapRazorPages();
 
 app.Run();
+
+// Метод для хеширования паролей
+static string ComputeSha256Hash(string rawData)
+{
+    using (System.Security.Cryptography.SHA256 sha256Hash = System.Security.Cryptography.SHA256.Create())
+    {
+        byte[] bytes = sha256Hash.ComputeHash(System.Text.Encoding.UTF8.GetBytes(rawData));
+        System.Text.StringBuilder builder = new System.Text.StringBuilder();
+        foreach (byte t in bytes)
+        {
+            builder.Append(t.ToString("x2"));
+        }
+        return builder.ToString();
+    }
+}

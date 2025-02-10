@@ -10,8 +10,8 @@ using MyRazorApp.Data;
 
 namespace Restaurant.Migrations
 {
-    [DbContext(typeof(AppDbContext))]
-    [Migration("20250206075143_InitialCreate")]
+    [DbContext(typeof(ApplicationDbContext))]
+    [Migration("20250210115509_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -24,7 +24,7 @@ namespace Restaurant.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("MyRazorApp.Models.Admin", b =>
+            modelBuilder.Entity("MyRazorApp.Models.AdminUser", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -42,7 +42,7 @@ namespace Restaurant.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Admins");
+                    b.ToTable("AdminUsers");
                 });
 #pragma warning restore 612, 618
         }

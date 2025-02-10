@@ -1,17 +1,18 @@
 @page
 @model MyRazorApp.Pages.Admin.LoginModel
 @{
-    ViewData["Title"] = "Вход в админ-панель";
+    Layout = "_LayoutAdmin";
 }
 
 <h2>Вход в админ-панель</h2>
+
 <form method="post">
     <div>
-        <label>Имя пользователя</label>
+        <label>Логин:</label>
         <input type="text" asp-for="Username" required />
     </div>
     <div>
-        <label>Пароль</label>
+        <label>Пароль:</label>
         <input type="password" asp-for="Password" required />
     </div>
     <button type="submit">Войти</button>
@@ -19,10 +20,10 @@
 
 @if (!string.IsNullOrEmpty(Model.ErrorMessage))
 {
-    <p style="color: red;">@Model.ErrorMessage</p>
+    <p style="color:red;">@Model.ErrorMessage</p>
 }
 
-@page
+@* @page
 @model MyRazorApp.Pages.RestaurantModel
 @{
     ViewData["Title"] = "Home page";
@@ -48,4 +49,4 @@
             </div>
         </form>
     </div>
-</div>
+</div> *@

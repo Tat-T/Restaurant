@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyRazorApp.Data;
+using MyRazorApp.Models;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -8,41 +10,48 @@ namespace MyRazorApp.Pages.Admin
 {
     public class LoginModel : PageModel
     {
-        private readonly AppDbContext _context;
-        public string ErrorMessage { get; set; }
-
-        [BindProperty]
-        public string Username { get; set; }
-
-        [BindProperty]
-        public string Password { get; set; }
-
-        public LoginModel(AppDbContext context)
+        private readonly ApplicationDbContext _db;
+        
+        public LoginModel(ApplicationDbContext db)
         {
-            _context = context;
+            _db = db;
         }
 
-        public void OnGet() { }
+        [BindProperty]
+        public required string Username { get; set; }
+
+        [BindProperty]
+        public required string Password { get; set; }
+
+        public required string ErrorMessage { get; set; }
 
         public IActionResult OnPost()
         {
-            var admin = _context.Admins.FirstOrDefault(a => a.Username == Username);
-            if (admin == null || !VerifyPassword(Password, admin.PasswordHash))
-            {
-                ErrorMessage = "Неверное имя пользователя или пароль";
-                return Page();
-            }
+            var hashedPassword = ComputeSha256Hash(Password);
+            var admin = _db.AdminUsers.FirstOrDefault(a => a.Username == Username && a.PasswordHash == hashedPassword);
 
-            Response.Cookies.Append("AdminAuth", "true");
-            return RedirectToPage("/Admin/Index");
+            if (admin != null)
+            {
+                HttpContext.Session.SetString("Admin", Username);
+                return RedirectToPage("/Admin/Index");
+            }
+            
+            ErrorMessage = "Неверный логин или пароль.";
+            return Page();
         }
 
-        private bool VerifyPassword(string password, string storedHash)
+        private string ComputeSha256Hash(string rawData)
         {
-            using var sha256 = SHA256.Create();
-            var hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-            var hashString = BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
-            return hashString == storedHash;
+            using (SHA256 sha256Hash = SHA256.Create())
+            {
+                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(rawData));
+                StringBuilder builder = new StringBuilder();
+                foreach (byte t in bytes)
+                {
+                    builder.Append(t.ToString("x2"));
+                }
+                return builder.ToString();
+            }
         }
     }
 }
