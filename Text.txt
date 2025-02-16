@@ -14,3 +14,5 @@ dotnet ef migrations add InitialCreate
 
 dotnet ef database update  (Обновление базы данных)
 dotnet run
+----------------------------------
+http://localhost:5015/Account/Login

@@ -2,6 +2,7 @@
 .vscode
 bin/
 obj/
+node_modules/
 *Properties
 Readme.txt
 README2.md
