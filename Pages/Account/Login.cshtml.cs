@@ -25,7 +25,7 @@ public class LoginModel : PageModel
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
 
-            return RedirectToPage("/Account/Index");
+            return RedirectToPage("/Account/Logout");
         }
 
         ModelState.AddModelError(string.Empty, "Неверный логин или пароль.");
