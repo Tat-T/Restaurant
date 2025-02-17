@@ -1,9 +1,21 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using MyRazorApp.Data;
 
-public class PModel : PageModel
+
+public class Index2Model : PageModel
 {
-    public void OnGet()
+    public readonly AppDbContext _context;
+
+    public Index2Model(AppDbContext context)
     {
+        _context = context;
+    }
+
+    public List<Reservation> Reservations { get; set; } = new ();
+
+    public async Task OnGetAsync()
+    {
+        Reservations = await _context.Reservations.ToListAsync();
     }
 }

@@ -6,28 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
     <link rel="stylesheet" href="stylerest.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
     <div class="menu">
         <ul class="navbar-nav d-flex flex-row justify-content-center">
             <li class="nav-item me-4">
-                <a href="/Index" class="nav-link fw-bold" asp-page="/Home">Главная</a>
+                <a class="nav-link fw-bold" asp-page="/Home">Главная</a>
             </li>
-            <li class="nav-item me-4">
-                <a href="/Menu" class="nav-link fw-bold" asp-page="/Menu">Меню</a>
-            </li>
-            <li class="nav-item me-4">
-                <a href="/Zakaz" class="nav-link fw-bold" asp-page="/Zakaz">Заказ столиков</a>
-            </li>
-            <li class="nav-item me-4 fw-bold">
-                <a href="/Restaurant" class="nav-link" asp-page="/Restaurant">Контакты</a>
-            </li>
-            <li class="nav-item me-4 fw-bold">
-                <a href="/Spisok" class="nav-link" asp-page="/Spisok">Адреса сети ресторана</a>
-            </li>
-            
         </ul>
     </div>
         @RenderBody()
