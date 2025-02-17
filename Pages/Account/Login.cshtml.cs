@@ -13,8 +13,7 @@ public class LoginModel : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
-        // Здесь должна быть проверка учетных данных пользователя
-        if (Email == "user@example.com" && Password == "password")
+        if (Email == "user@admin.ru" && Password == "123456")
         {
             var claims = new List<Claim>
             {
@@ -25,7 +24,7 @@ public class LoginModel : PageModel
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
 
-            return RedirectToPage("/Account/Index");
+            return RedirectToPage("/Account/Index2");
         }
 
         ModelState.AddModelError(string.Empty, "Неверный логин или пароль.");

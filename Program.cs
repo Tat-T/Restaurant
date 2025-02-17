@@ -1,8 +1,12 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
+using MyRazorApp.Data;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddRazorPages();
 
+// Добавляем подключение к базе данных
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 // Добавление служб аутентификации
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
@@ -10,6 +14,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.LoginPath = "/Account/Login";
         options.AccessDeniedPath = "/Account/AccessDenied";
     });
+    
+builder.Services.AddRazorPages();
 
 var app = builder.Build();
 

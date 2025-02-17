@@ -1,19 +1,9 @@
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace MyRazorApp.Pages.Admin
+public class PModel : PageModel
 {
-    [Authorize]
-    public class IndexModel : PageModel
+    public void OnGet()
     {
-        public IActionResult OnGet()
-        {
-            if (!Request.Cookies.ContainsKey("AdminAuth"))
-            {
-                return RedirectToPage("/Account/Index");
-            }
-            return Page();
-        }
     }
 }
