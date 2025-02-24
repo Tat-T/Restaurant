@@ -1,47 +1,58 @@
 @page
-@model MyRazorApp.Pages.IndexModel
+@model MyRazorApp.Pages.ZakazModel
 @{
     ViewData["Title"] = "Zakaz";
     Layout = "/Pages/Shared/_LayoutRest.cshtml";
 }
+
 <div class="zakaz mt-4 p-3 rounded-4 w-50" style="margin-left: 25%;">
-        <h3 class="text-center mb-2">Заказ столиков</h3>
-        <form>
-            <div class="mb-2">
-                <label for="name" class="form-label">Имя</label>
-                <input type="text" class="form-control border border-secondary focus-ring focus-ring-dark" id="name" placeholder="Ваше имя" required>
-            </div>
+    <h3 class="text-center mb-2">Заказ столиков</h3>
+    <form method="post">
+        <div class="mb-2">
+            <label asp-for="Reservation.Name" class="form-label">Имя</label>
+            <input asp-for="Reservation.Name" class="form-control border border-secondary focus-ring focus-ring-dark" placeholder="Ваше имя" required>
+            <span asp-validation-for="Reservation.Name" class="text-danger"></span>
+        </div>
 
-            <div class="mb-2">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control border border-secondary focus-ring focus-ring-dark" id="email" placeholder="Ваш email" required>
-            </div>
+        <div class="mb-2">
+            <label asp-for="Reservation.Email" class="form-label">Email</label>
+            <input asp-for="Reservation.Email" class="form-control border border-secondary focus-ring focus-ring-dark" placeholder="Ваш email" required>
+            <span asp-validation-for="Reservation.Email" class="text-danger"></span>
+        </div>
 
-            <div class="mb-2">
-                <label for="phone" class="form-label">Номер телефона</label>
-                <input type="tel" class="form-control border border-secondary focus-ring focus-ring-dark" id="phone" placeholder="Ваш номер телефона" required>
-            </div>
+        <div class="mb-2">
+            <label asp-for="Reservation.Phone" class="form-label">Номер телефона</label>
+            <input asp-for="Reservation.Phone" class="form-control border border-secondary focus-ring focus-ring-dark" placeholder="Ваш номер телефона" required>
+            <span asp-validation-for="Reservation.Phone" class="text-danger"></span>
+        </div>
 
-            <div class="mb-2">
-                <label for="date" class="form-label">Дата бронирования</label>
-                <input type="date" class="form-control border border-secondary focus-ring focus-ring-dark" id="date" required>
-            </div>
+        <div class="mb-2">
+            <label asp-for="Reservation.ReservationDate" class="form-label">Дата бронирования</label>
+            <input asp-for="Reservation.ReservationDate" class="form-control border border-secondary focus-ring focus-ring-dark" required>
+            <span asp-validation-for="Reservation.ReservationDate" class="text-danger"></span>
+        </div>
 
-            <div class="mb-2">
-                <label for="time" class="form-label">Время</label>
-                <input type="time" class="form-control border border-secondary focus-ring focus-ring-dark" id="time" required>
-            </div>
+        <div class="mb-2">
+            <label asp-for="Reservation.ReservationTime" class="form-label">Время</label>
+            <input asp-for="Reservation.ReservationTime" class="form-control border border-secondary focus-ring focus-ring-dark" required>
+            <span asp-validation-for="Reservation.ReservationTime" class="text-danger"></span>
+        </div>
 
-            <div class="mb-2">
-                <label for="guests" class="form-label">Количество гостей</label>
-                <input type="number" class="form-control border border-secondary focus-ring focus-ring-dark" id="guests" placeholder="Количество человек" min="1" required>
-            </div>
+        <div class="mb-2">
+            <label asp-for="Reservation.Guests" class="form-label">Количество гостей</label>
+            <input asp-for="Reservation.Guests" class="form-control border border-secondary focus-ring focus-ring-dark" placeholder="Количество человек" min="1" required>
+            <span asp-validation-for="Reservation.Guests" class="text-danger"></span>
+        </div>
 
-            <div class="mb-2">
-                <label for="message" class="form-label">Дополнительные пожелания</label>
-                <textarea class="form-control border border-secondary focus-ring focus-ring-dark" id="message" rows="3" placeholder="Ваши пожелания"></textarea>
-            </div>
+        <div class="mb-2">
+            <label asp-for="Reservation.Message" class="form-label">Дополнительные пожелания</label>
+            <textarea asp-for="Reservation.Message" class="form-control border border-secondary focus-ring focus-ring-dark" rows="3" placeholder="Ваши пожелания"></textarea>
+        </div>
 
-            <button type="submit" class="btn btn-dark w-100">Забронировать столик</button>
-        </form>
-    </div>
+        <button type="submit" class="btn btn-dark w-100">Забронировать столик</button>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
