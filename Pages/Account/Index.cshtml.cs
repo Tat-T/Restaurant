@@ -1,8 +1,9 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using MyRazorApp.Data;
 
-
+[Authorize]
 public class Index2Model : PageModel
 {
     public readonly AppDbContext _context;

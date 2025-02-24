@@ -1,6 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Authorization;
 
+[Authorize]
 public class Reservation
 {
     [Key] // Указывает, что Id — это первичный ключ

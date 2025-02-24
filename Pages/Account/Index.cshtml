@@ -4,44 +4,47 @@
     ViewData["Title"] = "Админ-панель";
     Layout = "/Pages/Shared/_LayoutAdmin.cshtml";
 }
-
-<div class="container mt-5">
-    <h2>Добро пожаловать в админ-панель!</h2>
-<div>
-    <h3 class="mt-4">Список заказов</h3>
-    <table class="table table-bordered mt-3">
-        <thead class="table-dark">
-            <tr>
-                <th>ID</th>
-                <th>Имя</th>
-                <th>Email</th>
-                <th>Телефон</th>
-                <th>Дата</th>
-                <th>Время</th>
-                <th>Гости</th>
-                <th>Сообщение</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model.Reservations != null)
-            {
-                @foreach (var item in Model.Reservations)
-                {
+<div class="container rounded-4 text-center p-3 mt-3">
+    <div class="container  rounded-4">
+        <h2>Добро пожаловать в админ-панель!</h2>
+        <div>
+            <h3 class="mt-4">Список заказов</h3>
+            <table class="table table-bordered mt-3">
+                <thead class="table-dark">
                     <tr>
-                        <td>@item.Id</td>
-                        <td>@item.Name</td>
-                        <td>@item.Email</td>
-                        <td>@item.Phone</td>
-                        <td>@item.ReservationDate.ToShortDateString()</td>
-                        <td>@item.ReservationTime</td>
-                        <td>@item.Guests</td>
-                        <td>@item.Message</td>
+                        <th>ID</th>
+                        <th>Имя</th>
+                        <th>Email</th>
+                        <th>Телефон</th>
+                        <th>Дата</th>
+                        <th>Время</th>
+                        <th>Гости</th>
+                        <th>Сообщение</th>
                     </tr>
-                }
-            }
-        </tbody>
+                </thead>
+                <tbody>
+                    @if (Model.Reservations != null)
+                    {
+                        @foreach (var item in Model.Reservations)
+                        {
+                            <tr>
+                                <td>@item.Id</td>
+                                <td>@item.Name</td>
+                                <td>@item.Email</td>
+                                <td>@item.Phone</td>
+                                <td>@item.ReservationDate.ToShortDateString()</td>
+                                <td>@item.ReservationTime</td>
+                                <td>@item.Guests</td>
+                                <td>@item.Message</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
 
-    </table>
-</div>
-    <a href="/Account/Login"><button class="btn btn-dark">Выйти</button></a>
+            </table>
+        </div>
+        <div class="pb-3">
+            <a href="/Account/Login"><button class="btn btn-dark">Выйти</button></a>
+        </div>
+    </div>
 </div>
