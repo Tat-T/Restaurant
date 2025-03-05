@@ -1,0 +1,30 @@
+body{
+    background-color:rgb(222, 222, 219);
+    height: 90vh;
+    text-align: center;
+    background: url('./image/fon.jpg') no-repeat;
+    background-size: cover ;
+}
+.container, .menu,.zakaz, .form{
+    background-color: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(8px);   
+}
+
+.restaurant-addresses {
+    margin-left: 25%;
+    margin-top: 10%;
+    padding: 1.5rem;
+    width: 50%;
+    border-radius: 2rem;
+    background-color: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(8px);   
+    margin-bottom: 1.5rem;
+}
+
+h1{
+  text-align: center;  
+}
+.list-group-item{
+    text-align: left;
+    padding-left: 25%;
+}

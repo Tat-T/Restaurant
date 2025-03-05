@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using MyRazorApp.Models;
 
 namespace MyRazorApp.Data
 {
@@ -7,5 +8,9 @@ namespace MyRazorApp.Data
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         public DbSet<Reservation> Reservations { get; set; }
+
+        public DbSet<UserRole> UserRoles { get; set; }
+
+        public DbSet<Users> Users { get; set; }
     }
 }
