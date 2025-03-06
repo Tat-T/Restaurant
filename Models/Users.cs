@@ -10,29 +10,26 @@ namespace MyRazorApp.Models
         public int Id { get; set; }
 
         [MaxLength(15)]
-        public string? SurName { get; set; }
+        public required string SurName { get; set; }
 
         [MaxLength(15)]
-        public string? Name { get; set; }
+        public required string Name { get; set; }
 
         [MaxLength(15)]
-        public string? Patronomic { get; set; }
+        public required string Patronomic { get; set; }
 
         [Required]
         [MaxLength(15)]
-        public string Login { get; set; } = string.Empty;
+        public required string Login { get; set; } = string.Empty;
 
         [MaxLength(15)]
-        public string? Password { get; set; }
-
-        [MaxLength(15)]
-        public string? ViewName { get; set; }
+        public required string Password { get; set; }
 
         [MaxLength(12)]
-        public string? Phone { get; set; }
+        public required string Phone { get; set; }
 
         [MaxLength(25)]
-        public string? Email { get; set; }
+        public required string Email { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime? Birthdate { get; set; }
