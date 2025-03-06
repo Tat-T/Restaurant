@@ -2,7 +2,7 @@
 @model RegistrationModel
 @{
     ViewData["Title"] = "Регистрация";
-    Layout = "/Pages/Shared/_LayoutAdmin.cshtml";
+    Layout = "/Pages/Shared/_LayoutRest.cshtml";
 }
 
 <div class="container mt-5">
@@ -53,7 +53,7 @@
         </div>
 
         <div class="row mt-3">
-            <div class="col-3"><label>Активен</label></div>
+            <div class="col-3"><label>Запомнить</label></div>
             <div class="col-9">
                 <input type="checkbox" asp-for="User.IsActive" />
             </div>

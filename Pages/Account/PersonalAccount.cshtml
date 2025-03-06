@@ -1,12 +1,12 @@
 @page
 @model Index2Model
 @{
-    ViewData["Title"] = "Личный кабинет";
+    ViewData["Title"] = "Страница";
     Layout = "/Pages/Shared/_LayoutRest.cshtml";
 }
 <div class="container rounded-4 text-center p-3 mt-3">
     <div class="container  rounded-4">
-        <h2>Добро пожаловать!</h2>
+        <h2>Добро пожаловать в админ-панель!</h2>
         <div>
             <h3 class="mt-4">Список заказов</h3>
             <table class="table table-bordered mt-3">
@@ -20,10 +20,6 @@
                         <th>Время</th>
                         <th>Гости</th>
                         <th>Сообщение</th>
-                        @if (User.IsInRole("Admin"))
-                            {
-                        <th></th>
-                            }
                     </tr>
                 </thead>
                 <tbody>
@@ -40,13 +36,6 @@
                                 <td>@item.ReservationTime</td>
                                 <td>@item.Guests</td>
                                 <td>@item.Message</td>
-                                @if (User.IsInRole("Admin"))
-                                {
-                                    <td>
-                                        <a asp-page="/Admin/EditReservation" asp-route-id="@item.Id"
-                                            class="btn btn-warning">Редактировать</a>
-                                    </td>
-                                }
                             </tr>
                         }
                     }
