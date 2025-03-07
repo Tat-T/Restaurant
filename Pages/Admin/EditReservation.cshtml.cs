@@ -16,7 +16,7 @@ public class EditReservationModel : PageModel
     }
 
     [BindProperty]
-    public Reservation? Reservation { get; set; } = new();  // ✅ Инициализация
+    public Reservation? Reservation { get; set; } = new();
 
     public async Task<IActionResult> OnGetAsync(int id)
     {
@@ -32,7 +32,7 @@ public class EditReservationModel : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
-        if (Reservation == null)  // ✅ Проверка на null
+        if (Reservation == null)
         {
             return NotFound();
         }

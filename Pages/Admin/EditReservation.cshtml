@@ -4,47 +4,49 @@
     ViewData["Title"] = "Личный кабинет";
     Layout = "/Pages/Shared/_LayoutRest.cshtml";
 }
-
-<h2>Редактирование заказа</h2>
-
-<form method="post">
-    <input type="hidden" asp-for="Reservation.Id" />
-
-    <div class="mb-3">
-        <label class="form-label">Имя</label>
-        <input asp-for="Reservation.Name" class="form-control" />
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Email</label>
-        <input asp-for="Reservation.Email" class="form-control" />
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Телефон</label>
-        <input asp-for="Reservation.Phone" class="form-control" />
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Дата</label>
-        <input asp-for="Reservation.ReservationDate" type="date" class="form-control" />
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Время</label>
-        <input asp-for="Reservation.ReservationTime" class="form-control" />
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Гости</label>
-        <input asp-for="Reservation.Guests" class="form-control" />
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Сообщение</label>
-        <textarea asp-for="Reservation.Message" class="form-control"></textarea>
-    </div>
-
-    <button type="submit" class="btn btn-success">Сохранить</button>
-    <a asp-page="/Account/Index" class="btn btn-secondary">Отмена</a>
-</form>
+<div class="zakaz mt-4 p-3 rounded-4 w-50" style="margin-left: 25%;">
+    
+    <h2 class="text-center mb-2">Редактирование заказа</h2>
+    
+    <form method="post">
+        <input type="hidden" asp-for="Reservation.Id" />
+    
+        <div class="mb-3">
+            <label class="form-label">Имя</label>
+            <input asp-for="Reservation.Name" class="form-control" />
+        </div>
+    
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input asp-for="Reservation.Email" class="form-control" />
+        </div>
+    
+        <div class="mb-3">
+            <label class="form-label">Телефон</label>
+            <input asp-for="Reservation.Phone" class="form-control" />
+        </div>
+    
+        <div class="mb-3">
+            <label class="form-label">Дата</label>
+            <input asp-for="Reservation.ReservationDate" type="date" class="form-control" />
+        </div>
+    
+        <div class="mb-3">
+            <label class="form-label">Время</label>
+            <input asp-for="Reservation.ReservationTime" class="form-control" />
+        </div>
+    
+        <div class="mb-3">
+            <label class="form-label">Гости</label>
+            <input asp-for="Reservation.Guests" class="form-control" />
+        </div>
+    
+        <div class="mb-3">
+            <label class="form-label">Сообщение</label>
+            <textarea asp-for="Reservation.Message" class="form-control"></textarea>
+        </div>
+    
+        <button type="submit" class="btn btn-dark">Сохранить</button>
+        <a asp-page="/Account/Index" class="btn btn-secondary">Отмена</a>
+    </form>
+</div>
