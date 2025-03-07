@@ -19,7 +19,8 @@
                 <a class="nav-link fw-bold" asp-page="/Menu">Меню</a>
             </li>
             <li class="nav-item me-4">
-                <a class="nav-link fw-bold" asp-page="/Zakaz">Заказ столиков</a>
+                <a class="nav-link fw-bold" asp-page="/Zakaz" data-bs-toggle="modal"
+                    data-bs-target="#registerModal">Заказ столиков</a>
             </li>
             <li class="nav-item me-4 fw-bold">
                 <a class="nav-link" asp-page="/Restaurant">Контакты</a>
@@ -30,11 +31,32 @@
             <li class="nav-item me-4 fw-bold">
                 <a class="nav-link" asp-page="Account/Login">Личный кабинет</a>
             </li>
-             <li class="nav-item me-4 fw-bold">
+            <li class="nav-item me-4 fw-bold">
                 <a href="tel:+89183586812" class="btn btn-dark w-100">позвонить 📞</a>
             </li>
         </ul>
     </div>
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="registerModalLabel">Регистрация</h5>
+                    <button type="submit" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <p>Вы хотите зарегистрироваться или продолжить без регистрации?</p>
+                </div>
+                <div class="modal-footer">
+                    <form method="post">
+                        <a href="/Account/Registration" class="btn btn-success">Зарегистрироваться</a>
+                        <a href="/Zakaz" class="btn btn-secondary">Продолжить без регистрации</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     @RenderBody()
     @RenderSection("Scripts", required: false)
 

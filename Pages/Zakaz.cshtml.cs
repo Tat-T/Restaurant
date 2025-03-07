@@ -29,5 +29,6 @@ namespace MyRazorApp.Pages
 
             return RedirectToPage("/Success");
         }
-    }
+
+    }   
 }

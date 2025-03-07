@@ -10,49 +10,59 @@
     <form method="post">
         <div class="mb-2">
             <label asp-for="Reservation.Name" class="form-label">Имя</label>
-            <input asp-for="Reservation.Name" class="form-control border border-secondary focus-ring focus-ring-dark" placeholder="Ваше имя" required>
+            <input asp-for="Reservation.Name" class="form-control border border-secondary focus-ring focus-ring-dark"
+                placeholder="Ваше имя" required>
             <span asp-validation-for="Reservation.Name" class="text-danger"></span>
         </div>
 
         <div class="mb-2">
             <label asp-for="Reservation.Email" class="form-label">Email</label>
-            <input asp-for="Reservation.Email" class="form-control border border-secondary focus-ring focus-ring-dark" placeholder="Ваш email" required>
+            <input asp-for="Reservation.Email" class="form-control border border-secondary focus-ring focus-ring-dark"
+                placeholder="Ваш email" required>
             <span asp-validation-for="Reservation.Email" class="text-danger"></span>
         </div>
 
         <div class="mb-2">
             <label asp-for="Reservation.Phone" class="form-label">Номер телефона</label>
-            <input asp-for="Reservation.Phone" class="form-control border border-secondary focus-ring focus-ring-dark" placeholder="Ваш номер телефона" required>
+            <input asp-for="Reservation.Phone" class="form-control border border-secondary focus-ring focus-ring-dark"
+                placeholder="Ваш номер телефона" required>
             <span asp-validation-for="Reservation.Phone" class="text-danger"></span>
         </div>
 
         <div class="mb-2">
             <label asp-for="Reservation.ReservationDate" class="form-label">Дата бронирования</label>
-            <input asp-for="Reservation.ReservationDate" class="form-control border border-secondary focus-ring focus-ring-dark" required>
+            <input asp-for="Reservation.ReservationDate"
+                class="form-control border border-secondary focus-ring focus-ring-dark" required>
             <span asp-validation-for="Reservation.ReservationDate" class="text-danger"></span>
         </div>
 
         <div class="mb-2">
             <label asp-for="Reservation.ReservationTime" class="form-label">Время</label>
-            <input asp-for="Reservation.ReservationTime" class="form-control border border-secondary focus-ring focus-ring-dark" required>
+            <input asp-for="Reservation.ReservationTime"
+                class="form-control border border-secondary focus-ring focus-ring-dark" required>
             <span asp-validation-for="Reservation.ReservationTime" class="text-danger"></span>
         </div>
 
         <div class="mb-2">
             <label asp-for="Reservation.Guests" class="form-label">Количество гостей</label>
-            <input asp-for="Reservation.Guests" class="form-control border border-secondary focus-ring focus-ring-dark" placeholder="Количество человек" min="1" required>
+            <input asp-for="Reservation.Guests" class="form-control border border-secondary focus-ring focus-ring-dark"
+                placeholder="Количество человек" min="1" required>
             <span asp-validation-for="Reservation.Guests" class="text-danger"></span>
         </div>
 
         <div class="mb-2">
             <label asp-for="Reservation.Message" class="form-label">Дополнительные пожелания</label>
-            <textarea asp-for="Reservation.Message" class="form-control border border-secondary focus-ring focus-ring-dark" rows="3" placeholder="Ваши пожелания"></textarea>
+            <textarea asp-for="Reservation.Message"
+                class="form-control border border-secondary focus-ring focus-ring-dark" rows="3"
+                placeholder="Ваши пожелания"></textarea>
         </div>
 
-        <button type="submit" class="btn btn-dark w-100">Забронировать столик</button>
+        <div>
+            <button type="submit" class="btn btn-dark w-100">Забронировать столик
+            </button>
+        </div>
     </form>
 </div>
-
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
