@@ -62,6 +62,6 @@ public class RegistrationModel : PageModel
         // Авторизуем пользователя
         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal);
 
-        return RedirectToPage("/Account/Index");
+        return RedirectToPage("/Zakaz");
     }
 }

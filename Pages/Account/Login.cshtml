@@ -2,11 +2,8 @@
 @model LoginModel
 @{
     ViewData["Title"] = "Авторизация";
-    Layout = "/Pages/Shared/_LayoutRest.cshtml";
+    Layout = "/Pages/Shared/_Layout.cshtml";
 }
-
-<body class="bg-secondary-subtle">
-    <div class="container mt-5">
         <form method="post"
             class="container col-6 rounded p-3 mt-3 position-absolute top-50 start-50 translate-middle shadow-lg">
             <div class="row m-3">
@@ -38,5 +35,3 @@
                 <button type="submit" class="btn btn-dark w-100">Войти</button>
             </div>
         </form>
-    </div>
-</body>
