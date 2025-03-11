@@ -91,3 +91,9 @@ h1{
         display: block;
         /* margin: 0 auto; Центрирование */
 }
+
+
+.scrollable-table {
+    max-height: 400px; /* Ограничиваем высоту */
+    overflow-y: auto; /* Добавляем вертикальную прокрутку */
+}

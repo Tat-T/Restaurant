@@ -9,50 +9,51 @@
         <h2>Добро пожаловать!</h2>
         <div>
             <h3 class="mt-4">Список заказов</h3>
-            <table class="table table-bordered mt-3">
-                <thead class="table-dark">
-                    <tr>
-                        <th>ID</th>
-                        <th>Имя</th>
-                        <th>Email</th>
-                        <th>Телефон</th>
-                        <th>Дата</th>
-                        <th>Время</th>
-                        <th>Гости</th>
-                        <th>Сообщение</th>
-                        @if (User.IsInRole("Admin"))
-                            {
-                        <th></th>
-                            }
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (Model.Reservations != null)
-                    {
-                        @foreach (var item in Model.Reservations)
-                        {
-                            <tr>
-                                <td>@item.Id</td>
-                                <td>@item.Name</td>
-                                <td>@item.Email</td>
-                                <td>@item.Phone</td>
-                                <td>@item.ReservationDate.ToShortDateString()</td>
-                                <td>@item.ReservationTime</td>
-                                <td>@item.Guests</td>
-                                <td>@item.Message</td>
-                                @if (User.IsInRole("Admin"))
+            <div class="scrollable-table">
+                <table class="table table-bordered mt-3">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Имя</th>
+                            <th>Email</th>
+                            <th>Телефон</th>
+                            <th>Дата</th>
+                            <th>Время</th>
+                            <th>Гости</th>
+                            <th>Сообщение</th>
+                            @if (User.IsInRole("Admin"))
                                 {
-                                    <td>
-                                        <a asp-page="/Admin/EditReservation" asp-route-id="@item.Id"
-                                            class="btn btn-danger">Редактировать</a>
-                                    </td>
+                            <th></th>
                                 }
-                            </tr>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Reservations != null)
+                        {
+                            @foreach (var item in Model.Reservations)
+                            {
+                                <tr>
+                                    <td>@item.Id</td>
+                                    <td>@item.Name</td>
+                                    <td>@item.Email</td>
+                                    <td>@item.Phone</td>
+                                    <td>@item.ReservationDate.ToShortDateString()</td>
+                                    <td>@item.ReservationTime</td>
+                                    <td>@item.Guests</td>
+                                    <td>@item.Message</td>
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <td>
+                                            <a asp-page="/Admin/EditReservation" asp-route-id="@item.Id"
+                                                class="btn btn-danger">Редактировать</a>
+                                        </td>
+                                    }
+                                </tr>
+                            }
                         }
-                    }
-                </tbody>
-
-            </table>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <div class="pb-3">
             <a href="/Account/Login"><button class="btn btn-dark">Выйти</button></a>
