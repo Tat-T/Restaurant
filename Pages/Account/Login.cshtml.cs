@@ -32,7 +32,7 @@ public class LoginModel : PageModel
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.Email),
-                    new Claim(ClaimTypes.Role, user.IdRole == 1 ? "Admin" : "User"), // Добавляем роль
+                    new Claim(ClaimTypes.Role, user.IdRole == 1 ? "Admin" : "Guest"), // Добавляем роль
                     new Claim("FullName", $"{user.SurName} {user.Name} {user.Patronomic}"),
                     new Claim("Phone", user.Phone ?? ""),
                     new Claim("UserId", user.Id.ToString())

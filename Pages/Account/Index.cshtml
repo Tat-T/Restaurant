@@ -22,9 +22,9 @@
                             <th>Гости</th>
                             <th>Сообщение</th>
                             @if (User.IsInRole("Admin"))
-                                {
-                            <th></th>
-                                }
+                            {
+                                <th></th>
+                            }
                         </tr>
                     </thead>
                     <tbody>
@@ -57,6 +57,9 @@
         </div>
         <div class="pb-3">
             <a href="/Account/Login"><button class="btn btn-dark">Выйти</button></a>
+            @* <form method="post" asp-page="/Account/Logout">
+                <button type="submit" class="btn btn-dark">Выйти</button>
+            </form> *@
         </div>
     </div>
 </div>

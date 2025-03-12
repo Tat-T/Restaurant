@@ -16,4 +16,5 @@ namespace MyRazorApp.Models
 
         public ICollection<User> Users { get; set; } = new List<User>();
     }
+    
 }
