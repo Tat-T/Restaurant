@@ -14,6 +14,7 @@ public class Index2Model : PageModel
     {
         _context = context;
     }
+    public List<DishViewModel> Dishes { get; set; } = new ();
 
     public List<Reservation> Reservations { get; set; } = new ();
 
@@ -32,6 +33,22 @@ public class Index2Model : PageModel
         if (userRole == "Admin")
         {
             Reservations = await _context.Reservations.ToListAsync();
+            Dishes = await _context.Dishes
+            .Select(d => new DishViewModel
+            {
+                DishID = d.DishID,
+                DishName = d.DishName,
+                Price = d.Price,
+                DishImage = "./image/dishes/" + d.DishID + "no-photo.jpg",
+                Ingredients = _context.DishIngredients
+                    .Where(di => di.DishID == d.DishID)
+                    .Join(_context.Ingredients,
+                          di => di.IngredientID,
+                          i => i.IngredientID,
+                          (di, i) => i.IngredientName)
+                    .ToList()
+            })
+            .ToListAsync();
         }
         else
         {
