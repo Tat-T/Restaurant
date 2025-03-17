@@ -39,7 +39,8 @@ public class Index2Model : PageModel
                 DishID = d.DishID,
                 DishName = d.DishName,
                 Price = d.Price,
-                DishImage = "./image/dishes/" + d.DishID + "no-photo.jpg",
+                // DishImage = "/image/dishes/" + d.DishID + ".jpg",
+                DishImage = string.IsNullOrEmpty(d.DishImage) ? "/image/dishes/no-photo.jpg" : d.DishImage,
                 Ingredients = _context.DishIngredients
                     .Where(di => di.DishID == d.DishID)
                     .Join(_context.Ingredients,

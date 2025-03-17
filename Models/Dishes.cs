@@ -17,5 +17,5 @@ public class Dishes
     public decimal Price { get; set; }
 
     public List<DishIngredients> DishIngredients { get; set; } = new();
-
+    public string? DishImage { get; internal set; }
 }
