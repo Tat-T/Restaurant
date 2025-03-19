@@ -1,0 +1,28 @@
+@page
+@model DeleteReservationModel
+@{
+    ViewData["Title"] = "Удаление бронирования";
+}
+
+<h2>Вы уверены, что хотите удалить это бронирование?</h2>
+
+@if (Model.Reservation != null)
+{
+    <div>
+        <p><strong>Имя:</strong> @Model.Reservation.Name</p>
+        <p><strong>Email:</strong> @Model.Reservation.Email</p>
+        <p><strong>Дата:</strong> @Model.Reservation.ReservationDate.ToString("dd.MM.yyyy")</p>
+        <p><strong>Гости:</strong> @Model.Reservation.Guests</p>
+    </div>
+
+    <form method="post">
+        <input type="hidden" name="id" value="@Model.Reservation.Id" />
+        <button type="submit" class="btn btn-danger">Удалить</button>
+        <a asp-page="/Account/Index" class="btn btn-secondary">Отмена</a>
+    </form>
+}
+else
+{
+    <p class="text-danger">Ошибка: бронирование не найдено.</p>
+    <a asp-page="/Account/Index" class="btn btn-secondary">Назад</a>
+}

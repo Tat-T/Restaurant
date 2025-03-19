@@ -56,6 +56,21 @@ public class EditReservationModel : PageModel
             }
             throw;
         }
+        
+
+        return RedirectToPage("/Account/Index");
+    }
+
+    // Метод для добавления нового бронирования
+    public async Task<IActionResult> OnPostCreateAsync(Reservation newReservation)
+    {
+        if (!ModelState.IsValid)
+        {
+            return Page();
+        }
+
+        _context.Reservations.Add(newReservation);
+        await _context.SaveChangesAsync();
 
         return RedirectToPage("/Account/Index");
     }
