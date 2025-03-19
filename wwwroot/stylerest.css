@@ -12,9 +12,8 @@ body{
 }
 
 .restaurant-addresses {
-    margin-left: 45%;
+    margin-left: 42%;
     margin-top: 10%;
-    padding: 1.5rem;
     width: 50%;
     border-radius: 2rem;
     background-color: rgba(255, 255, 255, 0.3);
@@ -94,6 +93,6 @@ h1{
 
 
 .scrollable-table {
-    max-height: 400px; /* Ограничиваем высоту */
+    max-height: 500px; /* Ограничиваем высоту */
     overflow-y: auto; /* Добавляем вертикальную прокрутку */
 }

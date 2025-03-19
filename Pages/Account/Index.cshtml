@@ -7,8 +7,8 @@
 <div class="container rounded-4 text-center p-3 mt-3">
     <div class="container  rounded-4">
         <div>
-            <h3 class="mt-4">Список заказов</h3>
             <div class="scrollable-table">
+                <h3 class="mt-4">Список заказов</h3>
                 <table class="table table-bordered mt-3">
                     <thead class="table-dark">
                         <tr>
@@ -52,47 +52,46 @@
                         }
                     </tbody>
                 </table>
-            </div>
-        </div>
-        <div class="pb-3">
-
-            @if (User.IsInRole("Admin"))
-            {
-                <h3 class="mt-4">Меню</h3>
-                <div class="scrollable-table">
-                    <table class="table table-bordered mt-3">
-                        <thead class="table-dark">
-                            <tr>
-                                <th>Фото</th>
-                                <th>Название блюда</th>
-                                <th>Ингредиенты</th>
-                                <th>Цена</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if (Model.Dishes != null)
-                            {
-                                @foreach (var dish in Model.Dishes)
+                @if (User.IsInRole("Admin"))
+                {
+                    <h3 class="mt-4">Меню</h3>
+                    <div class="scrollable-table">
+                        <table class="table table-bordered mt-3">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Фото</th>
+                                    <th>Название блюда</th>
+                                    <th>Ингредиенты</th>
+                                    <th>Цена</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.Dishes != null)
                                 {
-                                    <tr>
-                                        <td><img src="@dish.DishImage" alt="@dish.DishName" width="100"></td>
-                                        @* <td><img src="@Url.Content("~/image/dishes/no-photo.jpg")" alt="Фото блюда"  width="100"></td> *@
-                                        <td>@dish.DishName</td>
-                                        <td>@string.Join(", ", dish.Ingredients)</td>
-                                        <td>@dish.Price</td>
-                                        <td>
-                                            <a asp-page="/Admin/EditMenu" asp-route-id="@dish.DishID"
-                                                class="btn btn-danger">Редактировать</a>
-                                        </td>
-                                    </tr>
+                                    @foreach (var dish in Model.Dishes)
+                                    {
+                                        <tr>
+                                            <td><img src="@dish.DishImage" alt="@dish.DishName" width="100"></td>
+                                            @* <td><img src="@Url.Content("~/image/dishes/no-photo.jpg")" alt="Фото блюда"  width="100"></td> *@
+                                            <td>@dish.DishName</td>
+                                            <td>@string.Join(", ", dish.Ingredients)</td>
+                                            <td>@dish.Price</td>
+                                            <td>
+                                                <a asp-page="/Admin/EditMenu" asp-route-id="@dish.DishID"
+                                                    class="btn btn-danger">Редактировать</a>
+                                            </td>
+                                        </tr>
+                                    }
                                 }
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
 
+        </div>
+        <div class=" mt-3 pb-3">
             <a href="/Account/Login"><button class="btn btn-dark">Выйти</button></a>
             @* <form method="post" asp-page="/Account/Logout">
                 <button type="submit" class="btn btn-dark">Выйти</button>
