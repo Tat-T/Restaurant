@@ -8,12 +8,12 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 
 public class LoginModel : PageModel
 {
-     private readonly AppDbContext _context;
+    private readonly AppDbContext _context;
 
-        public LoginModel(AppDbContext context)
-        {
-            _context = context;
-        }
+    public LoginModel(AppDbContext context)
+    {
+        _context = context;
+    }
 
     [BindProperty]
     public required string Email { get; set; }
@@ -22,14 +22,14 @@ public class LoginModel : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
-         // Поиск пользователя в БД
-            var user = await _context.Users
-                .Include(u => u.UserRole) 
-                .FirstOrDefaultAsync(u => u.Email == Email && u.Password == Password);
+        // Поиск пользователя в БД
+        var user = await _context.Users
+            .Include(u => u.UserRole)
+            .FirstOrDefaultAsync(u => u.Email == Email && u.Password == Password);
 
-            if (user != null && user.IsActive)
-            {
-                var claims = new List<Claim>
+        if (user != null && user.IsActive)
+        {
+            var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.Email),
                     new Claim(ClaimTypes.Role, user.IdRole == 1 ? "Admin" : "Guest"), // Добавляем роль
@@ -38,16 +38,20 @@ public class LoginModel : PageModel
                     new Claim("UserId", user.Id.ToString())
                 };
 
-                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-                await HttpContext.SignInAsync(
-                    CookieAuthenticationDefaults.AuthenticationScheme, 
-                    new ClaimsPrincipal(claimsIdentity));
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity));
 
-                return RedirectToPage("/Account/Index"); // Перенаправление после входа
+            if (user.IdRole == 1) // Если Admin
+            {
+                return RedirectToPage("/Admin/AdminPanel");
             }
+            return RedirectToPage("/Account/Index"); // Перенаправление после входа
+        }
 
-            ModelState.AddModelError(string.Empty, "Неверный логин, пароль или аккаунт не активирован.");
-            return Page();
+        ModelState.AddModelError(string.Empty, "Неверный логин, пароль или аккаунт не активирован.");
+        return Page();
     }
 }
