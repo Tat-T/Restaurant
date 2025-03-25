@@ -1,0 +1,61 @@
+@page
+@model ZakazAdminModel
+@{
+    ViewData["Title"] = "Личный кабинет";
+    Layout = "/Pages/Shared/_LayoutRest.cshtml";
+}
+<div class="container rounded-4 text-center p-3 mt-3">
+    <div class="container  rounded-4">
+        <div>
+            <div class="scrollable-table">
+                <h3 class="mt-4">Список заказов</h3>
+                <table class="table table-bordered mt-3">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Имя</th>
+                            <th>Email</th>
+                            <th>Телефон</th>
+                            <th>Дата</th>
+                            <th>Время</th>
+                            <th>Гости</th>
+                            <th>Сообщение</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Reservations != null)
+                        {
+                            @foreach (var item in Model.Reservations)
+                            {
+                                <tr>
+                                    <td>@item.Id</td>
+                                    <td>@item.Name</td>
+                                    <td>@item.Email</td>
+                                    <td>@item.Phone</td>
+                                    <td>@item.ReservationDate.ToShortDateString()</td>
+                                    <td>@item.ReservationTime</td>
+                                    <td>@item.Guests</td>
+                                    <td>@item.Message</td>
+                                        <td>
+                                            <a asp-page="/Admin/EditReservation" asp-route-id="@item.Id"
+                                                class="btn btn-danger">Редактировать</a>
+                                            <form method="post" asp-page="/Admin/DeleteReservation" asp-route-id="@item.Id"
+                                                onsubmit="return confirm('Вы уверены, что хотите удалить бронирование?');"
+                                                style="display:inline;">
+                                                <button type="submit" class="btn btn-secondary">Удалить</button>
+                                            </form>
+                                        </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                    </div>
+            </div>
+
+        </div>
+        <div class=" mt-3 pb-3">
+            <a href="Account/AdminPanel"><button class="btn btn-dark">Назат</button></a>
+        </div>
+    </div>
+</div>
