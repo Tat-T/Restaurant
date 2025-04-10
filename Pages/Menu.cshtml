@@ -1,41 +1,25 @@
 @page
-@model MyRazorApp.Pages.RestaurantModel
+@model MyRazorApp.Pages.MenuModel
 @{
     ViewData["Title"] = "Информация о ресторане";
     Layout = "/Pages/Shared/_LayoutRest.cshtml";
 }
-    <div class="container rounded-4 mt-4">
-        <h1 class="text-center mb-4">Меню</h1>
-        
-        <div class="row text-center vh-75">
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <img src="./image/no-photo.jpg" class="card-img-top h-75" alt="Блюдо 1">
-                    <div class="card-body">
-                        <h5 class="card-title">Блюдо 1</h5>
-                        <p class="card-text">Описание первого блюда. Вкусное и сытное.</p>
-                    </div>
-                </div>
-            </div>
+<div class="container rounded-4 mt-4">
+    <h1 class="text-center mb-4">Меню</h1>
 
+    <div class="row text-center vh-75">
+        @foreach (var dish in Model.Dishes)
+        {
             <div class="col-md-4 mb-4">
                 <div class="card">
-                    <img src="./image/no-photo.jpg" class="card-img-top h-75" alt="Блюдо 2" >
+                    <img src="~/image/no-photo.jpg" class="card-img-top h-75" alt="@dish.DishName">
                     <div class="card-body">
-                        <h5 class="card-title">Блюдо 2</h5>
-                        <p class="card-text">Описание второго блюда. Идеально для гурманов.</p>
+                        <h5 class="card-title">@dish.DishName</h5>
+                        <p class="card-text">@dish.DishIngredients</p>
                     </div>
                 </div>
             </div>
-
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <img src="./image/no-photo.jpg" class="card-img-top h-75" alt="Блюдо 3">
-                    <div class="card-body">
-                        <h5 class="card-title">Блюдо 3</h5>
-                        <p class="card-text">Описание третьего блюда. Легкое и изысканное.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+        }
     </div>
+</div>
+
