@@ -6,13 +6,13 @@
 }
 <div class="container rounded-4 text-center p-3 mt-3">
     <div class="container  rounded-4">
+    <h3 class="mt-4">Список заказов</h3>
         <div>
             <div class="scrollable-table">
-                <h3 class="mt-4">Список заказов</h3>
-                <table class="table table-bordered mt-3">
-                    <thead class="table-dark">
+                <thead class="table-dark">
+                    <table class="table table-bordered mt-3">
                         <tr>
-                             @if (User.IsInRole("Admin"))
+                            @if (User.IsInRole("Admin"))
                             {
                                 <th>ID</th>
                             }
@@ -23,47 +23,48 @@
                             <th>Время</th>
                             <th>Гости</th>
                             <th>Сообщение</th>
-                             @if (User.IsInRole("Admin"))
+                            @if (User.IsInRole("Admin"))
                             {
                                 <th></th>
                             }
                         </tr>
-                    </thead>
-                    <tbody>
-                        @if (Model.Reservations != null)
+                </thead>
+                <tbody>
+                    @if (Model.Reservations != null)
+                    {
+                        @foreach (var item in Model.Reservations)
                         {
-                            @foreach (var item in Model.Reservations)
-                            {
-                                <tr>
-                                    @if (User.IsInRole("Admin"))
-                                    {
+                            <tr>
+                                @if (User.IsInRole("Admin"))
+                                {
                                     <td>@item.Id</td>
-                                    }
-                                    <td>@item.Name</td>
-                                    <td>@item.Email</td>
-                                    <td>@item.Phone</td>
-                                    <td>@item.ReservationDate.ToShortDateString()</td>
-                                    <td>@item.ReservationTime</td>
-                                    <td>@item.Guests</td>
-                                    <td>@item.Message</td>
-                                     @if (User.IsInRole("Admin"))
-                                    {
-                                        <td>
-                                            <a asp-page="/Admin/EditReservation" asp-route-id="@item.Id" class="btn btn-danger">Редактировать</a>
-                                            <form method="post" asp-page="/Admin/DeleteReservation" asp-route-id="@item.Id"
-                                                  onsubmit="return confirm('Вы уверены, что хотите удалить бронирование?');"
-                                                  style="display:inline;">
-                                                <button type="submit" class="btn btn-secondary">Удалить</button>
-                                            </form>
-                                        </td>
+                                }
+                                <td>@item.Name</td>
+                                <td>@item.Email</td>
+                                <td>@item.Phone</td>
+                                <td>@item.ReservationDate.ToShortDateString()</td>
+                                <td>@item.ReservationTime</td>
+                                <td>@item.Guests</td>
+                                <td>@item.Message</td>
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <td>
+                                        <a asp-page="/Admin/EditReservation" asp-route-id="@item.Id"
+                                            class="btn btn-danger">Редактировать</a>
+                                        <form method="post" asp-page="/Admin/DeleteReservation" asp-route-id="@item.Id"
+                                            onsubmit="return confirm('Вы уверены, что хотите удалить бронирование?');"
+                                            style="display:inline;">
+                                            <button type="submit" class="btn btn-secondary">Удалить</button>
+                                        </form>
+                                    </td>
 
-                                    }
-                                </tr>
-                            }
+                                }
+                            </tr>
                         }
-                    </tbody>
+                    }
+                </tbody>
                 </table>
-                   @if (User.IsInRole("Admin"))
+                @*@if (User.IsInRole("Admin"))
                 {
                     <h3 class="mt-4">Меню</h3>
                     <div class="scrollable-table">
@@ -84,7 +85,7 @@
                                     {
                                         <tr>
                                             <td><img src="@dish.DishImage" alt="@dish.DishName" width="100"></td>
-                                            @* <td><img src="@Url.Content("~/image/dishes/no-photo.jpg")" alt="Фото блюда"  width="100"></td> *@
+                                            @* <td><img src="@Url.Content("~/image/dishes/no-photo.jpg")" alt="Фото блюда"  width="100"></td> 
                                             <td>@dish.DishName</td>
                                             <td>@string.Join(", ", dish.Ingredients)</td>
                                             <td>@dish.Price</td>
@@ -98,16 +99,15 @@
                             </tbody>
                         </table>
                     </div>
-                }
-            </div>
+                }*@
             </div>
         </div>
-        <div class=" mt-3 pb-3">
-            <a href="/Account/Login"><button class="btn btn-dark">Выйти</button></a>
-        </div>
-        @* <form method="post" asp-page="/Account/Logout">
+    </div>
+    @* <form method="post" asp-page="/Account/Logout">
             <button type="submit" class="btn btn-dark">Выйти</button>
         </form> *@
-
+    <div class=" mt-3 pb-3">
+        <a href="/Account/Login"><button class="btn btn-dark">Выйти</button></a>
     </div>
+</div>
 </div>

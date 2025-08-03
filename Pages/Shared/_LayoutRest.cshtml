@@ -13,12 +13,11 @@
     <div class="menu d-flex justify-content-between align-items-center p-2">
         <a class="nav-link ms-4" asp-page="Account/Login" data-bs-toggle="modal" data-bs-target="#registerModal2"><img
                 src="/image/lk.png" width="50"></a>
-        @if(User.Identity != null && User.Identity.IsAuthenticated && (User.IsInRole("Guest")))
-
+        @if (User.Identity != null && User.Identity.IsAuthenticated && (User.IsInRole("Guest")))
         {
             <a class="nav-link fw-bold" asp-page="/Account/Index"><span class="p-2 fs-5">Профиль</span></a>
         }
-        @if(User.Identity != null && User.Identity.IsAuthenticated && (User.IsInRole("Admin")))
+        @if (User.Identity != null && User.Identity.IsAuthenticated && (User.IsInRole("Admin")))
 
         {
             <a class="nav-link fw-bold" asp-page="/Admin/AdminPanel"><span class="p-2 fs-5">Профиль</span></a>
@@ -31,10 +30,19 @@
             <li class="nav-item me-4">
                 <a class="nav-link fw-bold" asp-page="/Menu">Меню</a>
             </li>
+            @if (User.Identity?.IsAuthenticated ?? true)
+        {
+                <li class="nav-item me-4">
+                <a class="nav-link fw-bold" asp-page="/Zakaz">Заказ столиков</a>
+            </li>
+            }
+        @if (!User.Identity?.IsAuthenticated ?? true)
+        {
             <li class="nav-item me-4">
                 <a class="nav-link fw-bold" asp-page="/Zakaz" data-bs-toggle="modal"
                     data-bs-target="#registerModal">Заказ столиков</a>
             </li>
+        }
             <li class="nav-item me-4 fw-bold">
                 <a class="nav-link" asp-page="/Restaurant">Контакты</a>
             </li>
@@ -43,23 +51,19 @@
             </li>
         </ul>
     </div>
-
     <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="registerModalLabel">Регистрация</h5>
-                    <button type="submit" class="btn-close" style=" box-shadow: none;
-    outline: none;" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                    <button type="button" class="btn-close" style="box-shadow: none; outline: none;" data-bs-dismiss="modal" aria-label="Закрыть"></button>
                 </div>
                 <div class="modal-body text-center">
                     <p>Вы хотите зарегистрироваться или продолжить без регистрации?</p>
                 </div>
                 <div class="modal-footer">
-                    <form method="post">
-                        <a href="/Account/Registration" class="btn btn-dark">Зарегистрироваться</a>
-                        <a href="/Zakaz" class="btn btn-secondary">Продолжить без регистрации</a>
-                    </form>
+                    <a href="/Account/Registration" class="btn btn-dark">Зарегистрироваться</a>
+                    <a href="/Zakaz" class="btn btn-secondary">Продолжить без регистрации</a>
                 </div>
             </div>
         </div>
