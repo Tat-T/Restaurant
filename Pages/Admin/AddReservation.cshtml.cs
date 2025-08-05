@@ -8,38 +8,28 @@ using MyRazorApp.Data;
 [Authorize(Roles = "Admin")]
 public class AddReservationModel : PageModel
 {
-    private readonly AppDbContext _context;
+     private readonly AppDbContext _context;
 
-    public AddReservationModel(AppDbContext context)
-    {
-        _context = context;
-    }
-
-    [BindProperty]
-    public Reservation? Reservation { get; set; } = new();
-
-    public async Task<IActionResult> OnGetAsync(int id)
-    {
-        Reservation = await _context.Reservations.FindAsync(id);
-
-        if (Reservation == null)
+        public AddReservationModel(AppDbContext context)
         {
-            return NotFound();
+            _context = context;
         }
 
-        return Page();
-    }
+        [BindProperty]
+        public Reservation Reservation { get; set; } = new();
 
-    public async Task<IActionResult> OnPostAsync(Reservation newReservation)
-    {
-        if (!ModelState.IsValid)
+        public void OnGet()
         {
-            return Page();
         }
 
-        _context.Reservations.Add(newReservation);
-        await _context.SaveChangesAsync();
+        public async Task<IActionResult> OnPostAsync()
+        {
+            if (!ModelState.IsValid)
+                return Page();
 
-        return RedirectToPage("/Account/Index");
-    }
+            _context.Reservations.Add(Reservation);
+            await _context.SaveChangesAsync();
+
+            return RedirectToPage("/Admin/ZakazAdmin");
+        }
 }

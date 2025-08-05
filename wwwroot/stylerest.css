@@ -96,3 +96,9 @@ h1{
     max-height: 500px; /* Ограничиваем высоту */
     overflow-y: auto; /* Добавляем вертикальную прокрутку */
 }
+
+
+tr.expired td {
+        color: rgb(93, 87, 87);
+        font-weight: bold;
+    }
