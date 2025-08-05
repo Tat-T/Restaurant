@@ -55,6 +55,6 @@ public class DeleteReservationModel : PageModel
         _context.Reservations.Remove(reservation);
         await _context.SaveChangesAsync();
 
-        return RedirectToPage("/Account/Index");
+        return RedirectToPage("/Admin/ZakazAdmin");
     }
 }

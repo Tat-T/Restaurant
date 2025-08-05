@@ -18,11 +18,11 @@
     <form method="post">
         <input type="hidden" name="id" value="@Model.Reservation.Id" />
         <button type="submit" class="btn btn-danger">Удалить</button>
-        <a asp-page="/Account/Index" class="btn btn-secondary">Отмена</a>
+        <a asp-page="/Admin/ZakazAdmin" class="btn btn-secondary">Отмена</a>
     </form>
 }
 else
 {
     <p class="text-danger">Ошибка: бронирование не найдено.</p>
-    <a asp-page="/Account/Index" class="btn btn-secondary">Назад</a>
+    <a asp-page="/Admin/ZakazAdmin" class="btn btn-secondary">Назад</a>
 }

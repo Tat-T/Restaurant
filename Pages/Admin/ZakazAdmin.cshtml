@@ -28,7 +28,7 @@
                         {
                             @foreach (var item in Model.Reservations)
                             {                                
-                                <tr class="@(item.ReservationDate.Date > DateTime.Today ? "expired" : "")">
+                                <tr class="@(item.ReservationDate.Date >= DateTime.Today ? "expired" : "")">
                                     <td>@item.Id</td>
                                     <td>@item.Name</td>
                                     <td>@item.Email</td>

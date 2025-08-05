@@ -58,7 +58,7 @@ public class EditReservationModel : PageModel
         }
         
 
-        return RedirectToPage("/Account/Index");
+        return RedirectToPage("/Admin/ZakazAdmin");
     }
 
     // Метод для добавления нового бронирования
@@ -72,6 +72,6 @@ public class EditReservationModel : PageModel
         _context.Reservations.Add(newReservation);
         await _context.SaveChangesAsync();
 
-        return RedirectToPage("/Account/Index");
+        return RedirectToPage("/Admin/ZakazAdmin");
     }
 }

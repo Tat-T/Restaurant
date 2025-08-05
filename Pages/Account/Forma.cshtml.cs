@@ -44,6 +44,14 @@ public class FormaModel : PageModel
                     CookieAuthenticationDefaults.AuthenticationScheme, 
                     new ClaimsPrincipal(claimsIdentity));
 
+            if (User.IsInRole("Admin"))
+            {
+                
+                return RedirectToPage("/Account/AdminPanel"); 
+                
+            }
+            else
+
                 return RedirectToPage("/Account/Index"); // Перенаправление после входа
             }
 
