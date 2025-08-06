@@ -1,6 +1,9 @@
+using System.Globalization;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using MyRazorApp.Data;
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +33,10 @@ builder.Services.AddRazorPages();
 
 
 var app = builder.Build();
+
+var cultureInfo = new CultureInfo("ru-RU");
+CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
 app.UseRouting();
 app.UseStaticFiles();

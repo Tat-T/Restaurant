@@ -1,0 +1,50 @@
+@page "{id:int}"
+@model EditMenuModel
+@{
+    ViewData["Title"] = "Редактировать блюдо";
+    Layout = "/Pages/Shared/_LayoutRest.cshtml";
+}
+
+<div class="container mt-5 p-3 rounded-4 w-50">
+    <h2 class="text-center mb-2">Редактирование блюда</h2>
+
+    @if (!string.IsNullOrEmpty(Model.StatusMessage))
+    {
+        <div class="alert alert-success">@Model.StatusMessage</div>
+    }
+
+    <form method="post">
+        <div class="mb-3">
+            <label asp-for="DishInput.DishName" class="form-label">Название блюда</label>
+            <input asp-for="DishInput.DishName" class="form-control" />
+            <span asp-validation-for="DishInput.DishName" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="DishInput.Price" class="form-label">Цена</label>
+            <input asp-for="DishInput.Price" class="form-control" type="number" step="0.01" />
+            <span asp-validation-for="DishInput.Price" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="DishInput.DishImage" class="form-label">Ссылка на изображение</label>
+            <input asp-for="DishInput.DishImage" class="form-control" />
+            <span asp-validation-for="DishInput.DishImage" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="DishInput.IngredientNames" class="form-label">Ингредиенты (через запятую)</label>
+            <input asp-for="DishInput.IngredientNames" class="form-control" />
+            <span asp-validation-for="DishInput.IngredientNames" class="text-danger"></span>
+        </div>
+
+        <input type="hidden" asp-for="DishInput.DishID" />
+
+        <button type="submit" class="btn btn-dark">Сохранить изменения</button>
+        <a asp-page="/Admin/MenuAdmin" class="btn btn-secondary ms-2">Отмена</a>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

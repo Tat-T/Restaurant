@@ -14,9 +14,9 @@ public class MenuAdminModel : PageModel
     {
         _context = context;
     }
-    public List<DishViewModel> Dishes { get; set; } = new ();
+    public List<DishViewModel> Dishes { get; set; } = new();
 
-    public List<Reservation> Reservations { get; set; } = new ();
+    public List<Reservation> Reservations { get; set; } = new();
 
     public async Task<IActionResult> OnGetAsync()
     {
@@ -60,4 +60,23 @@ public class MenuAdminModel : PageModel
 
         return Page();
     }
+    
+    public async Task<IActionResult> OnPostDeleteAsync(int id)
+{
+    var dish = await _context.Dishes.FindAsync(id);
+    if (dish == null)
+    {
+        return NotFound();
+    }
+
+    // Удаляем связанные записи из таблицы связей (DishIngredients)
+    var ingredientsLinks = _context.DishIngredients.Where(di => di.DishID == id);
+    _context.DishIngredients.RemoveRange(ingredientsLinks);
+
+    _context.Dishes.Remove(dish);
+    await _context.SaveChangesAsync();
+
+    return RedirectToPage(); // Обновим текущую страницу
+}
+
 }

@@ -31,10 +31,12 @@
                                     <td>@string.Join(", ", dish.Ingredients)</td>
                                     <td>@dish.Price</td>
                                     <td>
-                                        <a asp-page="/Admin/NotF404" asp-route-id="@dish.DishID"
+                                        <a asp-page="/Admin/EditMenu" asp-route-id="@dish.DishID"
                                             class="btn btn-danger">Редактировать</a>
-                                        <a asp-page="/Admin/NotF404" asp-route-id="@dish.DishID"
-                                            class="btn btn-secondary">Удалить</a>
+                                        <form method="post" asp-page-handler="Delete" asp-route-id="@dish.DishID"
+                                            onsubmit="return confirm('Удалить блюдо?')" style="display:inline;">
+                                            <button type="submit" class="btn btn-secondary">Удалить</button>
+                                        </form>
                                     </td>
                                 </tr>
                             }
@@ -43,10 +45,10 @@
                 </table>
 
             </div>
-                <div class=" mt-3 pb-3">
-                    <a href="/Admin/AdminPanel"><button class="btn btn-dark">Назад</button></a>
-                </div>
-        </div>
+            <div class=" mt-3 pb-3">
+                <a href="/Admin/AdminPanel"><button class="btn btn-dark">Назад</button></a>
+            </div>
         </div>
     </div>
+</div>
 </div>
