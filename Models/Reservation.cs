@@ -21,7 +21,7 @@ public class Reservation
 
     [Required]
     [DataType(DataType.Date)] // Указывает, что это дата
-    public DateTime ReservationDate { get; set; }
+    public DateTime ReservationDate { get; set; } = DateTime.Today;
 
     [Required]
     [DataType(DataType.Time)] // Указывает, что это время
