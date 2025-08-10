@@ -18,7 +18,7 @@ namespace MyRazorApp.Pages.Admin
         }
 
         [BindProperty]
-        public Users User { get; set; } = new()
+        public new Users User { get; set; } = new()
         {
             SurName = string.Empty,
             Name = string.Empty,
