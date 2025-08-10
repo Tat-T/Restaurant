@@ -9,14 +9,19 @@ using System.ComponentModel.DataAnnotations;
 public class EditMenuModel : PageModel
 {
     private readonly AppDbContext _context;
+    private readonly IWebHostEnvironment _env;
 
-    public EditMenuModel(AppDbContext context)
+    public EditMenuModel(AppDbContext context, IWebHostEnvironment env)
     {
         _context = context;
+        _env = env;
     }
 
     [BindProperty]
     public DishInputModel DishInput { get; set; } = new();
+
+    [BindProperty]
+    public IFormFile? UploadImage { get; set; } // Файл для загрузки
 
     [TempData]
     public string? StatusMessage { get; set; }
@@ -82,12 +87,33 @@ public class EditMenuModel : PageModel
         // Обновляем данные блюда
         dish.DishName = DishInput.DishName;
         dish.Price = DishInput.Price;
-        dish.DishImage = DishInput.DishImage;
+
+        // Загрузка картинки
+        if (UploadImage != null && UploadImage.Length > 0)
+        {
+            var uploadsFolder = Path.Combine(_env.WebRootPath, "images");
+            Directory.CreateDirectory(uploadsFolder);
+
+            var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(UploadImage.FileName);
+            var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await UploadImage.CopyToAsync(stream);
+            }
+
+            dish.DishImage = "/images/" + uniqueFileName; // путь для отображения
+        }
+        else
+        {
+            // Если картинка не загружена — оставляем прежнюю
+            dish.DishImage = DishInput.DishImage;
+        }
 
         // Удаляем старые связи ингредиентов
         _context.DishIngredients.RemoveRange(dish.DishIngredients);
 
-        // Обработка ингредиентов из строки
+        // Обработка ингредиентов
         var ingredientNames = DishInput.IngredientNames
             .Split(",", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
             .Where(n => !string.IsNullOrWhiteSpace(n))
@@ -105,7 +131,7 @@ public class EditMenuModel : PageModel
             {
                 ingredient = new Ingredients { IngredientName = name };
                 _context.Ingredients.Add(ingredient);
-                await _context.SaveChangesAsync(); // Сохраняем, чтобы получить ID
+                await _context.SaveChangesAsync();
             }
 
             newDishIngredients.Add(new DishIngredients
