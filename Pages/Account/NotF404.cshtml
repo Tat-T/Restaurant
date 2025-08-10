@@ -1,0 +1,22 @@
+@page
+@model MyRazorApp.Pages.IndexModel
+@{
+    ViewData["Title"] = "Личный кабинет";
+    Layout = "/Pages/Shared/_LayoutRest.cshtml";
+}
+
+<div class="mt-3 p-3 text-center">
+    <img src="/image/404.png" alt="В разработке" width="600">
+
+    @if (User.IsInRole("Admin"))
+    {
+        <div class=" mt-3 pb-3">
+            <a href="/Admin/AdminPanel"><button class="btn btn-dark">Назад</button></a>
+        </div>
+    } else {
+    <div class=" mt-3 pb-3">
+        <a href="/Restaurant"><button class="btn btn-dark">Назад</button></a>
+    </div>
+    }
+    
+</div>
