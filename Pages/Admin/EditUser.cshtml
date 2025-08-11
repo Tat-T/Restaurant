@@ -1,0 +1,72 @@
+@page "{id:int}"
+@model MyRazorApp.Pages.Admin.EditUserModel
+@{
+    ViewData["Title"] = "Редактировать пользователя";
+    Layout = "/Pages/Shared/_LayoutRest.cshtml";
+}
+
+<div class="container rounded-4 p-3 mt-3 w-50">
+    <h2 class="text-center">Редактировать пользователя</h2>
+    <form method="post">
+        <input type="hidden" asp-for="User.Id" />
+
+        <div>
+            <label asp-for="User.SurName" class="form-label fw-semibold">Фамилия</label>
+            <input asp-for="User.SurName" class="form-control border border-secondary focus-ring focus-ring-dark" />
+            <span asp-validation-for="User.SurName" class="text-danger"></span>
+        </div>
+        <div>
+            <label asp-for="User.Name" class="form-label fw-semibold">Имя</label>
+            <input asp-for="User.Name" class="form-control border border-secondary focus-ring focus-ring-dark" />
+            <span asp-validation-for="User.Name" class="text-danger"></span>
+        </div>
+        <div>
+            <label asp-for="User.Patronomic" class="form-label fw-semibold">Отчество</label>
+            <input asp-for="User.Patronomic" class="form-control border border-secondary focus-ring focus-ring-dark" />
+            <span asp-validation-for="User.Patronomic" class="text-danger"></span>
+        </div>
+        <div>
+            <label asp-for="User.Login" class="form-label fw-semibold">Логин</label>
+            <input asp-for="User.Login" class="form-control border border-secondary focus-ring focus-ring-dark" />
+            <span asp-validation-for="User.Login" class="text-danger"></span>
+        </div>
+        <div>
+            <label asp-for="User.Password" class="form-label fw-semibold">Пароль</label>
+            <input asp-for="User.Password" type="password" class="form-control border border-secondary focus-ring focus-ring-dark" />
+            <span asp-validation-for="User.Password" class="text-danger"></span>
+        </div>
+        <div>
+            <label asp-for="User.Email" class="form-label fw-semibold">e-mail</label>
+            <input asp-for="User.Email" class="form-control border border-secondary focus-ring focus-ring-dark" />
+            <span asp-validation-for="User.Email" class="text-danger"></span>
+        </div>
+        <div>
+            <label asp-for="User.Phone" class="form-label fw-semibold">тел.:</label>
+            <input asp-for="User.Phone" class="form-control border border-secondary focus-ring focus-ring-dark" />
+            <span asp-validation-for="User.Phone" class="text-danger"></span>
+        </div>
+        <div>
+            <label asp-for="User.Birthdate" class="form-label fw-semibold">Дата рождения</label>
+            <input asp-for="User.Birthdate" type="date" class="form-control border border-secondary focus-ring focus-ring-dark" />
+            <span asp-validation-for="User.Birthdate" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="User.IdRole" class="form-label fw-semibold">Роль</label>
+            <select asp-for="User.IdRole" asp-items="Model.RoleList" class="form-select border border-secondary focus-ring focus-ring-dark"></select>
+            <span asp-validation-for="User.IdRole" class="text-danger"></span>
+        </div>
+        <div class="mb-3 form-check">
+            <input asp-for="User.IsActive" class="form-check-input border border-secondary focus-ring focus-ring-dark" />
+            <label asp-for="User.IsActive" class="form-check-label fw-semibold ">Активен</label>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-dark">Сохранить</button>
+            <a asp-page="/Admin/AdminUsers" class="btn btn-secondary">Отмена</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
