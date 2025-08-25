@@ -27,7 +27,7 @@ namespace MyRazorApp.Pages.Admin
             Name = string.Empty,
             Patronomic = string.Empty,
             Login = string.Empty,
-            
+
             Phone = string.Empty,
             Email = string.Empty
         };
@@ -52,6 +52,12 @@ namespace MyRazorApp.Pages.Admin
 
         public async Task<IActionResult> OnPostAsync()
         {
+
+            ModelState.Remove("User.PasswordHash");
+
+            if (User.IdRole == 0)
+                ModelState.AddModelError("User.IdRole", "Выберите роль");
+
             if (!ModelState.IsValid)
             {
                 await OnGetAsync();
