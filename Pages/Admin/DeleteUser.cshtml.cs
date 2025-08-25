@@ -23,7 +23,7 @@ namespace MyRazorApp.Pages.Admin
             Name = string.Empty,
             Patronomic = string.Empty,
             Login = string.Empty,
-            Password = string.Empty,
+            PasswordHash = string.Empty,
             Phone = string.Empty,
             Email = string.Empty
         };

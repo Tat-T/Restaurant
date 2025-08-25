@@ -1,20 +1,23 @@
+using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MyRazorApp.Data;
 using MyRazorApp.Models;
-using System.ComponentModel.DataAnnotations;
 
 namespace MyRazorApp.Pages.Admin
 {
     public class AddUsersModel : PageModel
     {
         private readonly AppDbContext _context;
+        private readonly IPasswordHasher<Users> _passwordHasher;
 
-        public AddUsersModel(AppDbContext context)
+        public AddUsersModel(AppDbContext context, IPasswordHasher<Users> passwordHasher)
         {
             _context = context;
+            _passwordHasher = passwordHasher;
         }
 
         [BindProperty]
@@ -24,10 +27,16 @@ namespace MyRazorApp.Pages.Admin
             Name = string.Empty,
             Patronomic = string.Empty,
             Login = string.Empty,
-            Password = string.Empty,
+            
             Phone = string.Empty,
             Email = string.Empty
         };
+
+        [BindProperty]
+        [DataType(DataType.Password)]
+        [Required]
+        public string Password { get; set; } = string.Empty; // временное свойство для ввода пароля
+
         public List<SelectListItem> RoleList { get; set; } = new();
 
         public async Task OnGetAsync()
@@ -49,7 +58,10 @@ namespace MyRazorApp.Pages.Admin
                 return Page();
             }
 
+            // Хэширование пароля перед сохранением
+            User.PasswordHash = _passwordHasher.HashPassword(User, Password);
             User.CreationDate = DateTime.UtcNow;
+
             _context.Users.Add(User);
             await _context.SaveChangesAsync();
 

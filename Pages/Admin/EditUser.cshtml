@@ -31,9 +31,9 @@
             <span asp-validation-for="User.Login" class="text-danger"></span>
         </div>
         <div>
-            <label asp-for="User.Password" class="form-label fw-semibold">Пароль</label>
-            <input asp-for="User.Password" type="password" class="form-control border border-secondary focus-ring focus-ring-dark" />
-            <span asp-validation-for="User.Password" class="text-danger"></span>
+            <label asp-for="User.PasswordHash" class="form-label fw-semibold">Пароль</label>
+            <input asp-for="User.PasswordHash" type="password" class="form-control border border-secondary focus-ring focus-ring-dark" />
+            <span asp-validation-for="User.PasswordHash" class="text-danger"></span>
         </div>
         <div>
             <label asp-for="User.Email" class="form-label fw-semibold">e-mail</label>

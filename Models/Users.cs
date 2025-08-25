@@ -22,8 +22,8 @@ namespace MyRazorApp.Models
         [MaxLength(15)]
         public required string Login { get; set; } = string.Empty;
 
-        [MaxLength(15)]
-        public required string Password { get; set; }
+        [Required]
+        public string PasswordHash { get; set; } = string.Empty;
 
         [MaxLength(12)]
         public required string Phone { get; set; }
@@ -39,7 +39,7 @@ namespace MyRazorApp.Models
 
         [ForeignKey("UserRole")]
         public int IdRole { get; set; }
-        public UserRole? UserRole { get; set; } // Навигационное свойство
+        public UserRole? UserRole { get; set; }
 
         public bool IsActive { get; set; } = false;
     }

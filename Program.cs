@@ -1,12 +1,17 @@
 using System.Globalization;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MyRazorApp.Data;
+using MyRazorApp.Models;
+using MyRazorApp.Services;
 
 
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+builder.Services.AddScoped<IPasswordHasher<Users>, PasswordHasher<Users>>();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -45,6 +50,16 @@ app.UseSession();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+// ---- Вызов миграции паролей ----
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    var passwordHasher = scope.ServiceProvider.GetRequiredService<IPasswordHasher<Users>>();
+
+    await PasswordMigration.RunAsync(context, passwordHasher);
+}
+// --------------------------------
 
 app.MapRazorPages();
 

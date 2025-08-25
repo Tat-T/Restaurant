@@ -23,7 +23,7 @@ namespace MyRazorApp.Pages.Admin
             Name = string.Empty,
             Patronomic = string.Empty,
             Login = string.Empty,
-            Password = string.Empty,
+            PasswordHash = string.Empty,
             Phone = string.Empty,
             Email = string.Empty
         };
@@ -68,7 +68,7 @@ namespace MyRazorApp.Pages.Admin
             existingUser.Name = User.Name;
             existingUser.Patronomic = User.Patronomic;
             existingUser.Login = User.Login;
-            existingUser.Password = User.Password;
+            existingUser.PasswordHash = User.PasswordHash;
             existingUser.Email = User.Email;
             existingUser.Phone = User.Phone;
             existingUser.Birthdate = User.Birthdate;

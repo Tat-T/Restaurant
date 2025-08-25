@@ -25,7 +25,7 @@ public class FormaModel : PageModel
          // Поиск пользователя в БД
             var user = await _context.Users
                 .Include(u => u.UserRole) 
-                .FirstOrDefaultAsync(u => u.Email == Email && u.Password == Password);
+                .FirstOrDefaultAsync(u => u.Email == Email && u.PasswordHash == Password);
 
             if (user != null && user.IsActive)
             {
