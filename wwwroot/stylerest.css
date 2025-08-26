@@ -1,14 +1,16 @@
-body{
-    background-color:rgb(222, 222, 219);
-    height: 90vh;
+body {
+    background-color: rgb(222, 222, 219);
     text-align: center;
     background: url('./image/fon.jpg') no-repeat;
-    background-size: cover ;
+    background-size: cover;
 }
 
-.container, .menu,.zakaz, .form{
+.container,
+.menu,
+.zakaz,
+.form {
     background-color: rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(8px);   
+    backdrop-filter: blur(8px);
 }
 
 .restaurant-addresses {
@@ -17,14 +19,15 @@ body{
     width: 50%;
     border-radius: 2rem;
     background-color: rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(8px);   
+    backdrop-filter: blur(8px);
     margin-bottom: 1.5rem;
 }
 
-h1{
-  text-align: center;  
+h1 {
+    text-align: center;
 }
-.list-group-item{
+
+.list-group-item {
     text-align: left;
     padding-left: 25%;
 }
@@ -44,7 +47,8 @@ h1{
 
 .carousel-indicators {
     position: absolute;
-    bottom: 20px; /* Позиция относительно нижней границы */
+    bottom: 20px;
+    /* Позиция относительно нижней границы */
     left: 50%;
     transform: translateX(-50%);
     display: flex;
@@ -84,22 +88,44 @@ h1{
 }
 
 .carousel-item img {
-        width: 650px;  /* Фиксированная ширина */
-        height: 450px; /*Фиксированная высота */
-        object-fit: cover; /* Обрезка изображения, сохраняя пропорции */
-        display: block;
-        /* margin: 0 auto; Центрирование */
+    width: 650px;
+    /* Фиксированная ширина */
+    height: auto;
+    /* (450px);Фиксированная высота */
+    object-fit: cover;
+    /* Обрезка изображения, сохраняя пропорции */
+    display: block;
+    /* margin: 0 auto; Центрирование */
 }
 
 
 .scrollable-table {
-    max-height: 500px; /* Ограничиваем высоту */
-    overflow-y: auto; /* Добавляем вертикальную прокрутку */
+    max-height: 500px;
+    /* Ограничиваем высоту */
+    overflow-y: auto;
+    /* Добавляем вертикальную прокрутку */
+    overflow-x: hidden;
+}
+
+.scrollable-table thead th {
+    position: sticky;
+    top: 0;
+    background: #212529;   /* фон как у .table-dark */
+    color: white;
+    /* z-index: 2; */
 }
 
 
 tr.expired td {
-        color: rgb(93, 87, 87);
-        font-weight: bold;
-    }
-    
+    color: rgb(93, 87, 87);
+    font-weight: bold;
+}
+
+.card-img-top {
+    width: 100%;
+    height: auto;
+    /* чтобы не вылазило */
+    object-fit: cover;
+    /* аккуратное кадрирование */
+}
+

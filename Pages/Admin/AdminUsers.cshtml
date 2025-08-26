@@ -8,9 +8,8 @@
 <div class="container rounded-4 text-center p-3 mt-3">
     <h2 class="mb-4">Список пользователей</h2>
     <div class="scrollable-table">
-        @* <table class="table table-bordered table-hover text-center align-middle"> *@
         <table class="table table-bordered">
-            <thead class="table-dark">
+            <thead class="table-dark p-0">
                 <tr>
                     <th>ID</th>
                     <th>Фамилия</th>
@@ -51,12 +50,6 @@
                             }
                         </td>
                         <td>
-                            @* <a asp-page="/Admin/EditReservation" asp-route-id="@user.Id"
-                                class="btn btn-danger">Редактировать</a>
-                            <form method="post" asp-page="/Admin/DeleteUser" asp-route-id="@user.Id"
-                                onsubmit="return confirm('Вы уверены, что хотите удалить бронирование?');"
-                                style="display:inline;"> *@
-
                             <a asp-page="/Admin/EditUser" asp-route-id="@user.Id"
                                 class="btn p-0 border-0 bg-transparent"><img src="/image/pen.png" alt="Редактировать"
                                     style="width:30px; height:30px;"></a>
@@ -64,7 +57,6 @@
                             <form method="post" asp-page="/Admin/DeleteUser" asp-route-id="@user.Id"
                                 onsubmit="return confirm('Вы уверены, что хотите удалить пользователя?');"
                                 style="display:inline;">
-                                @* <button type="submit" class="btn btn-secondary">Удалить</button> *@
                                 <button type="submit" class="btn p-0 border-0 bg-transparent">
                                     <img src="/image/delete.png" alt="Удалить" style="width:30px; height:30px;">
                                 </button>
@@ -75,8 +67,9 @@
             </tbody>
         </table>
     </div>
-    <div class=" p-3"></div>
+    <div class=" p-3">
     <a href="/Admin/AdminPanel"><button class="btn btn-dark">Назад</button></a>
     <a asp-page="/Admin/AddUsers" class="btn btn-success">Добавить пользователя</a>
+    </div>
 </div>
 </div>
