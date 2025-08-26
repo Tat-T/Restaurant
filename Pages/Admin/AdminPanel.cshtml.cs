@@ -1,4 +1,6 @@
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -14,9 +16,9 @@ public class AdminPanelModel : PageModel
     {
         _context = context;
     }
-    public List<DishViewModel> Dishes { get; set; } = new ();
+    public List<DishViewModel> Dishes { get; set; } = new();
 
-    public List<Reservation> Reservations { get; set; } = new ();
+    public List<Reservation> Reservations { get; set; } = new();
 
     public async Task<IActionResult> OnGetAsync()
     {
@@ -59,5 +61,11 @@ public class AdminPanelModel : PageModel
         }
 
         return Page();
+    }
+    
+    public async Task<IActionResult> OnPostLogoutAsync()
+    {
+        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        return RedirectToPage("/Account/Login");
     }
 }
