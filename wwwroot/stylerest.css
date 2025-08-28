@@ -110,11 +110,10 @@ h1 {
 .scrollable-table thead th {
     position: sticky;
     top: 0;
-    background: #212529;   /* фон как у .table-dark */
-    color: white;
-    /* z-index: 2; */
+    background: #212529;
+    color: #fff;
+    z-index: 2;
 }
-
 
 tr.expired td {
     color: rgb(93, 87, 87);

@@ -5,15 +5,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 public class LogoutModel : PageModel
 {
-    public async Task<IActionResult> OnPostAsync()
+    public async Task<IActionResult> OnPostLogoutAsync()
     {
-        // Очистка аутентификационных куки
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-
-        // Очистка сессии
+         // Очистка сессии
         HttpContext.Session.Clear();
-
-        // Перенаправление после выхода
         return RedirectToPage("/Account/Login");
     }
 }

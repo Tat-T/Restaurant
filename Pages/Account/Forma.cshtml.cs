@@ -52,7 +52,7 @@ public class FormaModel : PageModel
             }
             else
 
-                return RedirectToPage("/Account/Index"); // Перенаправление после входа
+                return RedirectToPage("/Account/Index");
             }
 
             ModelState.AddModelError(string.Empty, "Неверный логин, пароль или аккаунт не активирован.");
