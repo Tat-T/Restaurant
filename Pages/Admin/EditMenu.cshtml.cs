@@ -23,6 +23,9 @@ public class EditMenuModel : PageModel
     [BindProperty]
     public IFormFile? UploadImage { get; set; } // Файл для загрузки
 
+    [BindProperty]
+    public bool RemoveImage { get; set; } // Флаг удаления картинки
+
     [TempData]
     public string? StatusMessage { get; set; }
 
@@ -39,6 +42,7 @@ public class EditMenuModel : PageModel
         public decimal Price { get; set; }
 
         public string? DishImage { get; set; }
+
 
         [Required(ErrorMessage = "Укажите ингредиенты через запятую")]
         public string IngredientNames { get; set; } = "";
@@ -88,9 +92,20 @@ public class EditMenuModel : PageModel
         dish.DishName = DishInput.DishName;
         dish.Price = DishInput.Price;
 
-        // Загрузка картинки
-        if (UploadImage != null && UploadImage.Length > 0)
+         // Удаление картинки
+        if (RemoveImage && !string.IsNullOrEmpty(dish.DishImage))
         {
+            var filePath = Path.Combine(_env.WebRootPath, dish.DishImage.TrimStart('/'));
+            if (System.IO.File.Exists(filePath))
+            {
+                System.IO.File.Delete(filePath);
+            }
+
+            dish.DishImage = null;
+        }
+        else if (UploadImage != null && UploadImage.Length > 0)
+        {
+            // Загрузка новой картинки
             var uploadsFolder = Path.Combine(_env.WebRootPath, "images");
             Directory.CreateDirectory(uploadsFolder);
 
@@ -102,11 +117,11 @@ public class EditMenuModel : PageModel
                 await UploadImage.CopyToAsync(stream);
             }
 
-            dish.DishImage = "/images/" + uniqueFileName; // путь для отображения
+            dish.DishImage = "/images/" + uniqueFileName;
         }
         else
         {
-            // Если картинка не загружена — оставляем прежнюю
+            // Если ничего не меняли — оставляем прежнюю
             dish.DishImage = DishInput.DishImage;
         }
 

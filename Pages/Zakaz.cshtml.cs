@@ -15,49 +15,51 @@ namespace MyRazorApp.Pages
             _context = context;
         }
 
-      [BindProperty]
-public Reservation Reservation { get; set; } = new Reservation();
+        [BindProperty]
+        public Reservation Reservation { get; set; } = new Reservation();
 
-public List<DateTime> AvailableDates { get; set; } = new();
-public List<DateTime> BookedDates { get; set; } = new();
-public List<TimeSpan> AvailableTimes { get; set; } = new();
-public List<TimeSpan> BookedTimes { get; set; } = new();
+        public List<DateTime> AvailableDates { get; set; } = new();
+        public List<DateTime> BookedDates { get; set; } = new();
+        public List<TimeSpan> AvailableTimes { get; set; } = new();
+        public List<TimeSpan> BookedTimes { get; set; } = new();
 
-public async Task OnGetAsync()
-{
-    // Доступные даты (например, ближайшие 7 дней)
-    AvailableDates = Enumerable.Range(0, 7)
-        .Select(offset => DateTime.Today.AddDays(offset))
-        .ToList();
+        public Dictionary<string, List<string>> BookedSlots { get; set; } = new();
 
-    // Доступные часы (12:00 – 22:00)
-    AvailableTimes = Enumerable.Range(12, 10)
-        .Select(h => new TimeSpan(h, 0, 0))
-        .ToList();
+        public async Task OnGetAsync()
+        {
+            // Доступные даты (например, ближайшие 7 дней)
+            AvailableDates = Enumerable.Range(0, 7)
+                .Select(offset => DateTime.Today.AddDays(offset))
+                .ToList();
 
-    // Забронированные даты и часы
-    BookedDates = await _context.Reservations
-        .Select(r => r.ReservationDate.Date)
-        .Distinct()
-        .ToListAsync();
+            // Доступные часы (12:00 – 22:00)
+            AvailableTimes = Enumerable.Range(12, 10)
+                .Select(h => new TimeSpan(h, 0, 0))
+                .ToList();
 
-    BookedTimes = await _context.Reservations
-        .Select(r => r.ReservationTime)
-        .ToListAsync();
-}
+            // Загружаем брони из БД
+            var reservations = await _context.Reservations.ToListAsync();
 
-public async Task<IActionResult> OnPostAsync()
-{
-    if (!ModelState.IsValid)
-    {
-        await OnGetAsync();
-        return Page();
-    }
+            BookedSlots = reservations
+                .GroupBy(r => r.ReservationDate.Date)
+                .ToDictionary(
+                    g => g.Key.ToString("yyyy-MM-dd"), // ключ — дата в строке
+                    g => g.Select(r => r.ReservationTime.ToString(@"hh\:mm")).ToList()
+                );
+        }
 
-    _context.Reservations.Add(Reservation);
-    await _context.SaveChangesAsync();
+        public async Task<IActionResult> OnPostAsync()
+        {
+            if (!ModelState.IsValid)
+            {
+                await OnGetAsync();
+                return Page();
+            }
 
-    return RedirectToPage("/Success");
-}
+            _context.Reservations.Add(Reservation);
+            await _context.SaveChangesAsync();
+
+            return RedirectToPage("/Success");
+        }
     }
 }

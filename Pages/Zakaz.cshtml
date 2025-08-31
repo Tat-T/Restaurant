@@ -83,6 +83,10 @@
     </form>
 </div>
 @section Scripts {
+     <script>
+        // Словарь забронированных слотов { "2025-08-30": ["12:00","13:00"] }
+        var bookedSlots = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.BookedSlots));
+    </script>
     <script src="~/js/zakaz.js"></script>
     <partial name="_ValidationScriptsPartial" />
 }

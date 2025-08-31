@@ -34,7 +34,7 @@ namespace MyRazorApp.Pages.Admin
             if (!ModelState.IsValid)
                 return Page();
 
-            string imagePath = "/images/default-dish.png";
+            string imagePath = "/image/no-photo.jpg";
 
             if (UploadImage != null)
             {
