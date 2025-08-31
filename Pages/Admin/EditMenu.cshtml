@@ -26,7 +26,7 @@
 
         <div class="mb-3">
             <label asp-for="DishInput.Price" class="form-label">Цена</label>
-            <input asp-for="DishInput.Price" class="form-control border border-secondary focus-ring focus-ring-dark" />
+            <input asp-for="DishInput.Price" type="number" step="0.01" class="form-control border border-secondary focus-ring focus-ring-dark" />
             <span asp-validation-for="DishInput.Price" class="text-danger"></span>
         </div>
 
@@ -56,6 +56,6 @@
     </form>
 </div>
 
-@section Scripts {
+@* @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-}
+} *@
