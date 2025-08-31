@@ -29,14 +29,34 @@
             <input asp-for="Reservation.Phone" class="form-control border border-secondary focus-ring focus-ring-dark" />
         </div>
     
-        <div class="mb-3">
-            <label class="form-label">Дата</label>
-            <input asp-for="Reservation.ReservationDate" type="date" class="form-control border border-secondary focus-ring focus-ring-dark" />
+                <div class="mb-2">
+            <label class="form-label fw-semibold">Выберите дату</label>
+            <div>
+                @foreach (var date in Model.AvailableDates)
+                {
+                    var isFullyBooked = Model.BookedDates.Contains(date.Date);
+                    <button type="button" class="btn btn-dark m-1 date-btn" data-date="@date.ToString("yyyy-MM-dd")"
+                        @(isFullyBooked ? "disabled" : "") onclick="selectDate('@date.ToString("yyyy-MM-dd")')">
+                        @date.ToString("dd.MM.yyyy")
+                    </button>
+                }
+            </div>
+            <input type="hidden" asp-for="Reservation.ReservationDate" id="reservationDate" />
         </div>
-    
-        <div class="mb-3">
-            <label class="form-label">Время</label>
-            <input asp-for="Reservation.ReservationTime" class="form-control border border-secondary focus-ring focus-ring-dark" />
+
+        <div class="mb-2">
+            <label class="form-label fw-semibold">Выберите время</label>
+            <div id="time-buttons">
+                @foreach (var time in Model.AvailableTimes)
+                {
+                    var isBooked = Model.BookedTimes.Contains(time);
+                    <button type="button" class="btn btn-dark m-1 time-btn" data-time="@time.ToString(@"hh\:mm")"
+                        @(isBooked ? "disabled" : "") onclick="selectTime('@time.ToString(@"hh\:mm")')">
+                        @time.ToString(@"hh\:mm")
+                    </button>
+                }
+            </div>
+            <input type="hidden" asp-for="Reservation.ReservationTime" id="reservationTime" />
         </div>
     
         <div class="mb-3">
@@ -53,3 +73,8 @@
         <a asp-page="/Admin/ZakazAdmin" class="btn btn-secondary">Отмена</a>
     </form>
 </div>
+
+@section Scripts {
+    <script src="~/js/zakaz.js"></script>
+    <partial name="_ValidationScriptsPartial" />
+}

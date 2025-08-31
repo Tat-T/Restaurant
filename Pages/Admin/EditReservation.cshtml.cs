@@ -18,17 +18,43 @@ public class EditReservationModel : PageModel
     [BindProperty]
     public Reservation? Reservation { get; set; } = new();
 
-    public async Task<IActionResult> OnGetAsync(int id)
+    public List<DateTime> AvailableDates { get; set; } = new();
+    public List<DateTime> BookedDates { get; set; } = new();
+    public List<TimeSpan> AvailableTimes { get; set; } = new();
+    public List<TimeSpan> BookedTimes { get; set; } = new();
+
+   public async Task<IActionResult> OnGetAsync(int id)
+{
+    Reservation = await _context.Reservations.FindAsync(id);
+
+    if (Reservation == null)
     {
-        Reservation = await _context.Reservations.FindAsync(id);
-
-        if (Reservation == null)
-        {
-            return NotFound();
-        }
-
-        return Page();
+        return NotFound();
     }
+
+    // Доступные даты (например, ближайшие 7 дней)
+    AvailableDates = Enumerable.Range(0, 7)
+        .Select(offset => DateTime.Today.AddDays(offset))
+        .ToList();
+
+    // Доступные часы (12:00 – 22:00)
+    AvailableTimes = Enumerable.Range(12, 10)
+        .Select(h => new TimeSpan(h, 0, 0))
+        .ToList();
+
+    // Забронированные даты и часы
+    BookedDates = await _context.Reservations
+        .Select(r => r.ReservationDate.Date)
+        .Distinct()
+        .ToListAsync();
+
+    BookedTimes = await _context.Reservations
+        .Select(r => r.ReservationTime)
+        .ToListAsync();
+
+    return Page();
+}
+
 
     public async Task<IActionResult> OnPostAsync()
     {
@@ -56,7 +82,7 @@ public class EditReservationModel : PageModel
             }
             throw;
         }
-        
+
 
         return RedirectToPage("/Admin/ZakazAdmin");
     }
