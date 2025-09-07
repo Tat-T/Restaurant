@@ -1,11 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.AspNetCore.Authorization;
 
-[Authorize(Roles = "Administrator")]
 public class Dishes
 {
-[Key]
+    [Key]
     public int DishID { get; set; }
 
     [Required]
@@ -16,6 +14,8 @@ public class Dishes
     [Column(TypeName = "decimal(10,2)")]
     public decimal Price { get; set; }
 
+    public string? DishImage { get; set; }
+
+    // Навигация к связке с ингредиентами
     public List<DishIngredients> DishIngredients { get; set; } = new();
-    public string? DishImage { get; internal set; }
 }

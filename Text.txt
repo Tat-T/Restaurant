@@ -16,3 +16,14 @@ dotnet ef database update  (Обновление базы данных)
 dotnet run
 ----------------------------------
 http://localhost:5015/Account/Login
+
+---------01.09.25-----------------
+dotnet add package Microsoft.AspNetCore.Identity.EntityFrameworkCore
+dotnet add package Microsoft.AspNetCore.Identity.UI
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+dotnet add package Microsoft.EntityFrameworkCore.Tools
+
+dotnet ef migrations add InitialIdentity
+dotnet ef database update
+
+18E14358-CAE

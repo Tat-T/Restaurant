@@ -2,19 +2,22 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using MyRazorApp.Data;
+using MyRazorApp.Models;
 
-[Authorize]
 public class AdminPanelModel : PageModel
 {
     public readonly AppDbContext _context;
+    private readonly SignInManager<User> _signInManager;
 
-    public AdminPanelModel(AppDbContext context)
+    public AdminPanelModel(AppDbContext context, SignInManager<User> signInManager)
     {
         _context = context;
+        _signInManager = signInManager;
     }
     public List<DishViewModel> Dishes { get; set; } = new();
 
@@ -62,10 +65,11 @@ public class AdminPanelModel : PageModel
 
         return Page();
     }
-    
+
     public async Task<IActionResult> OnPostLogoutAsync()
     {
-        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        await _signInManager.SignOutAsync();
+        HttpContext.Session.Clear();
         return RedirectToPage("/Account/Login");
     }
 }

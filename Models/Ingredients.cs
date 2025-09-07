@@ -1,9 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Authorization;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-
-[Authorize(Roles = "Administrator")]
 
 public class Ingredients
 {
@@ -14,5 +9,6 @@ public class Ingredients
     [StringLength(255)]
     public string IngredientName { get; set; } = string.Empty;
 
+    // Навигация к связке с блюдами
     public List<DishIngredients> DishIngredients { get; set; } = new();
 }

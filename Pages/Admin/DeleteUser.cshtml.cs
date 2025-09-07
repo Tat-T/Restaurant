@@ -17,21 +17,21 @@ namespace MyRazorApp.Pages.Admin
         }
 
         [BindProperty]
-        public new Users? User { get; set; }= new()
+        public new User? User { get; set; }= new()
         {
             SurName = string.Empty,
             Name = string.Empty,
             Patronomic = string.Empty,
-            Login = string.Empty,
+            UserName = string.Empty,
             PasswordHash = string.Empty,
-            Phone = string.Empty,
+            PhoneNumber = string.Empty,
             Email = string.Empty
         };
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
             User = await _context.Users
-                .Include(u => u.UserRole)
+                .Include(u => u.IdRole)
                 .FirstOrDefaultAsync(u => u.Id == id);
 
             if (User == null)

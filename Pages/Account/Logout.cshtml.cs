@@ -1,15 +1,24 @@
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using MyRazorApp.Models;
 
-public class LogoutModel : PageModel
+namespace MyRazorApp.Pages.Account
 {
-    public async Task<IActionResult> OnPostLogoutAsync()
+    public class LogoutModel : PageModel
     {
-        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-         // Очистка сессии
-        HttpContext.Session.Clear();
-        return RedirectToPage("/Account/Login");
+        private readonly SignInManager<User> _signInManager;
+
+        public LogoutModel(SignInManager<User> signInManager)
+        {
+            _signInManager = signInManager;
+        }
+
+        public async Task<IActionResult> OnPostLogoutAsync()
+        {
+            await _signInManager.SignOutAsync();
+            HttpContext.Session.Clear();
+            return RedirectToPage("/Account/Login");
+        }
     }
 }

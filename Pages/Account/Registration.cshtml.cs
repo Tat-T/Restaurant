@@ -1,67 +1,78 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using MyRazorApp.Data;
 using MyRazorApp.Models;
+using System.ComponentModel.DataAnnotations;
 
-public class RegistrationModel : PageModel
+namespace MyRazorApp.Pages.Account
 {
-    private readonly AppDbContext _context;
-
-    public RegistrationModel(AppDbContext context)
+    public class RegistrationModel : PageModel
     {
-        _context = context;
-    }
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
 
-    [BindProperty]
-    public required new Users User { get; set; }
-
-    public async Task<IActionResult> OnPostAsync()
-    {
-        if (!ModelState.IsValid)
+        public RegistrationModel(UserManager<User> userManager, SignInManager<User> signInManager)
         {
-            return Page();
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
 
-        // Проверяем, не существует ли уже такой пользователь
-        var existingUser = await _context.Users.AnyAsync(u => u.Login == User.Login || u.Email == User.Email);
-        if (existingUser)
+        [BindProperty]
+        public InputModel Input { get; set; } = new();
+
+        public class InputModel
         {
-            ModelState.AddModelError("", "Пользователь с таким логином или email уже существует.");
-            return Page();
+            [Required, MaxLength(15)]
+            public string SurName { get; set; } = string.Empty;
+
+            [Required, MaxLength(15)]
+            public string Name { get; set; } = string.Empty;
+
+            [Required, MaxLength(15)]
+            public string Patronomic { get; set; } = string.Empty;
+
+            [Required, MaxLength(50)]
+            public string UserName { get; set; } = string.Empty;
+
+            [Required, EmailAddress]
+            public string Email { get; set; } = string.Empty;
+
+            [Required, Phone]
+            public string PhoneNumber { get; set; } = string.Empty;
+
+            [Required, DataType(DataType.Password)]
+            public string Password { get; set; } = string.Empty;
         }
 
-        User.CreationDate = DateTime.Now;
-        User.IdRole = 5;
-        User.IsActive = true; // Активируем пользователя по умолчанию
-
-        _context.Users.Add(User);
-        await _context.SaveChangesAsync();
-
-        // Создаем Claims
-        var claims = new List<Claim>
+        public async Task<IActionResult> OnPostAsync()
         {
-            new Claim(ClaimTypes.Name, User.Email),
-            new Claim("UserId", User.Id.ToString()),
-            new Claim("IsActive", User.IsActive.ToString()),  // Добавляем IsActive в Claims
-            new Claim(ClaimTypes.Role, User.IdRole.ToString()) // Сохраняем роль
-        };
+            if (!ModelState.IsValid)
+                return Page();
 
-        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-        var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+            var user = new User
+            {
+                SurName = Input.SurName,
+                Name = Input.Name,
+                Patronomic = Input.Patronomic,
+                UserName = Input.UserName,
+                Email = Input.Email,
+                PhoneNumber = Input.PhoneNumber,
+                CreationDate = DateTime.UtcNow,
+                IdRole = 5,
+                IsActive = true
+            };
 
-        // Авторизуем пользователя
-        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal);
+            var result = await _userManager.CreateAsync(user, Input.Password);
+            if (result.Succeeded)
+            {
+                await _signInManager.SignInAsync(user, isPersistent: false);
+                return RedirectToPage("/Zakaz");
+            }
 
-        return RedirectToPage("/Zakaz");
+            foreach (var error in result.Errors)
+                ModelState.AddModelError(string.Empty, error.Description);
+
+            return Page();
+        }
     }
 }

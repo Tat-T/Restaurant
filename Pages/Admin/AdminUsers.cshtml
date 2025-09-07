@@ -33,9 +33,9 @@
                         <td>@user.SurName</td>
                         <td>@user.Name</td>
                         <td>@user.Patronomic</td>
-                        <td>@user.Login</td>
+                        <td>@user.UserName</td>
                         <td>@user.Email</td>
-                        <td>@user.Phone</td>
+                        <td>@user.PhoneNumber</td>
                         <td>@(user.Birthdate?.ToString("dd.MM.yyyy") ?? "-")</td>
                         <td>@user.CreationDate.ToString("dd.MM.yyyy")</td>
                         <td>@(user.UserRole?.Name ?? "—")</td>
@@ -71,5 +71,4 @@
     <a href="/Admin/AdminPanel"><button class="btn btn-dark">Назад</button></a>
     <a asp-page="/Admin/AddUsers" class="btn btn-success">Добавить пользователя</a>
     </div>
-</div>
 </div>

@@ -5,38 +5,40 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using MyRazorApp.Data;
 
-[Authorize]
+// [Authorize]
 public class ZakazAdminModel : PageModel
 {
-    public readonly AppDbContext _context;
+    private readonly AppDbContext _context;
 
     public ZakazAdminModel(AppDbContext context)
     {
         _context = context;
     }
 
-    public List<Reservation> Reservations { get; set; } = new ();
+    public List<Reservation> Reservations { get; set; } = new();
+
+    public bool IsAdmin { get; set; }
 
     public async Task<IActionResult> OnGetAsync()
     {
-        // Получаем email и роль текущего пользователя
-        var userEmail = User.FindFirstValue(ClaimTypes.Name);
-        var userRole = User.FindFirstValue(ClaimTypes.Role); // Админ или Пользователь
+        var userRole = User.FindFirstValue(ClaimTypes.Role);
 
-        if (string.IsNullOrEmpty(userEmail))
-        {
-            return RedirectToPage("/Account/Login");
-        }
+        IsAdmin = !string.IsNullOrEmpty(userRole) &&
+                  string.Equals(userRole, "Admin", StringComparison.OrdinalIgnoreCase);
 
-        // Если админ — получаем все заказы, иначе только заказы текущего пользователя
-        if (userRole == "Admin")
+        if (IsAdmin)
         {
-            Reservations = await _context.Reservations.ToListAsync();
+            Reservations = await _context.Reservations
+                .OrderByDescending(r => r.ReservationDate)
+                .ToListAsync();
         }
         else
         {
+            var userEmail = User.FindFirstValue(ClaimTypes.Email) ?? "";
+
             Reservations = await _context.Reservations
                 .Where(r => r.Email == userEmail)
+                .OrderByDescending(r => r.ReservationDate)
                 .ToListAsync();
         }
 

@@ -26,14 +26,14 @@
             <span asp-validation-for="User.Patronomic" class="text-danger"></span>
         </div>
         <div>
-            <label asp-for="User.Login" class="form-label fw-semibold">Логин</label>
-            <input asp-for="User.Login" class="form-control border border-secondary focus-ring focus-ring-dark" />
-            <span asp-validation-for="User.Login" class="text-danger"></span>
+            <label asp-for="User.UserName" class="form-label fw-semibold">Логин</label>
+            <input asp-for="User.UserName" class="form-control border border-secondary focus-ring focus-ring-dark" />
+            <span asp-validation-for="User.UserName" class="text-danger"></span>
         </div>
         <div>
-            <label asp-for="User.PasswordHash" class="form-label fw-semibold">Пароль</label>
-            <input asp-for="User.PasswordHash" type="password" class="form-control border border-secondary focus-ring focus-ring-dark" />
-            <span asp-validation-for="User.PasswordHash" class="text-danger"></span>
+            <label asp-for="NewPassword" class="form-label fw-semibold">Пароль</label>
+            <input asp-for="NewPassword" type="password" class="form-control border border-secondary focus-ring focus-ring-dark" />
+            <span asp-validation-for="NewPassword" class="text-danger"></span>
         </div>
         <div>
             <label asp-for="User.Email" class="form-label fw-semibold">e-mail</label>
@@ -41,9 +41,9 @@
             <span asp-validation-for="User.Email" class="text-danger"></span>
         </div>
         <div>
-            <label asp-for="User.Phone" class="form-label fw-semibold">тел.:</label>
-            <input asp-for="User.Phone" class="form-control border border-secondary focus-ring focus-ring-dark" />
-            <span asp-validation-for="User.Phone" class="text-danger"></span>
+            <label asp-for="User.PhoneNumber" class="form-label fw-semibold">тел.:</label>
+            <input asp-for="User.PhoneNumber" class="form-control border border-secondary focus-ring focus-ring-dark" />
+            <span asp-validation-for="User.PhoneNumber" class="text-danger"></span>
         </div>
         <div>
             <label asp-for="User.Birthdate" class="form-label fw-semibold">Дата рождения</label>
@@ -51,9 +51,9 @@
             <span asp-validation-for="User.Birthdate" class="text-danger"></span>
         </div>
         <div class="mb-3">
-            <label asp-for="User.IdRole" class="form-label fw-semibold">Роль</label>
-            <select asp-for="User.IdRole" asp-items="Model.RoleList" class="form-select border border-secondary focus-ring focus-ring-dark"></select>
-            <span asp-validation-for="User.IdRole" class="text-danger"></span>
+            <label asp-for="SelectedRoleId" class="form-label fw-semibold">Роль</label>
+            <select asp-for="SelectedRoleId" asp-items="Model.RoleList" class="form-select border border-secondary focus-ring focus-ring-dark"></select>
+            <span asp-validation-for="SelectedRoleId" class="text-danger"></span>
         </div>
         <div class="mb-3 form-check">
             <input asp-for="User.IsActive" class="form-check-input bg-dark border border-secondary focus-ring focus-ring-dark" />
@@ -70,4 +70,3 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
-1

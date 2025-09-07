@@ -12,23 +12,22 @@ namespace MyRazorApp.Pages.Admin
     public class AddUsersModel : PageModel
     {
         private readonly AppDbContext _context;
-        private readonly IPasswordHasher<Users> _passwordHasher;
+        private readonly IPasswordHasher<User> _passwordHasher;
 
-        public AddUsersModel(AppDbContext context, IPasswordHasher<Users> passwordHasher)
+        public AddUsersModel(AppDbContext context, IPasswordHasher<User> passwordHasher)
         {
             _context = context;
             _passwordHasher = passwordHasher;
         }
 
         [BindProperty]
-        public new Users User { get; set; } = new()
+        public new User User { get; set; } = new()
         {
             SurName = string.Empty,
             Name = string.Empty,
             Patronomic = string.Empty,
-            Login = string.Empty,
-
-            Phone = string.Empty,
+            UserName = string.Empty,
+            PhoneNumber = string.Empty,
             Email = string.Empty
         };
 
@@ -41,14 +40,16 @@ namespace MyRazorApp.Pages.Admin
 
         public async Task OnGetAsync()
         {
-            RoleList = await _context.UserRoles
-                .Select(r => new SelectListItem
-                {
-                    Value = r.Id.ToString(),
-                    Text = r.Name ?? "Без названия"
-                })
-                .ToListAsync();
+            RoleList = await _context.Roles
+    .Select(r => new SelectListItem
+    {
+        Value = r.Id.ToString(),
+        Text = r.Name
+    })
+    .ToListAsync();
+
         }
+
 
         public async Task<IActionResult> OnPostAsync()
         {

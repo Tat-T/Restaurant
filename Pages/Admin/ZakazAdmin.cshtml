@@ -7,7 +7,11 @@
 <div class="container rounded-4 text-center p-3 mt-3">
     <div class="container  rounded-4">
         <div>
-            <h3>Список заказов</h3>
+            <h3 class="pt-4">Список заказов</h3>
+                @if (Model.IsAdmin)
+                {
+                    <span class="badge bg-dark ms-2 mb-4">Админ</span>
+                }
             <div class="scrollable-table">
                 <table class="table table-bordered">
                     <thead class="table-dark">
