@@ -58,7 +58,11 @@
             </div>
         </div>
     <div class=" p-3">
+        @if (User.Identity != null && User.Identity.IsAuthenticated && (User.IsInRole("Admin")))
+        {     
         <a href="/Admin/AdminPanel"><button class="btn btn-dark">Назад</button></a>
+        } else
+        {<a href="/Account/Index"><button class="btn btn-dark">Назад</button></a>}
         <a asp-page="/Zakaz" class="btn btn-success">Добавить заказ</a>
     </div>
     </div>

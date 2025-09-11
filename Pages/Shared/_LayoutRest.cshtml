@@ -20,15 +20,16 @@
                 src="/image/lk.png" width="50"></a>
         }
 
-        @if (User.Identity != null && User.Identity.IsAuthenticated && (User.IsInRole("Guest")))
+        @if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("User"))
         {
             <a class="nav-link fw-bold" asp-page="/Account/Index"><span class="p-2 fs-5">Профиль</span></a>
         }
-        @if (User.Identity != null && User.Identity.IsAuthenticated && (User.IsInRole("Admin")))
 
+        @if (User.Identity != null && User.Identity.IsAuthenticated && (User.IsInRole("Admin")))
         {
             <a class="nav-link fw-bold" asp-page="/Admin/AdminPanel"><span class="p-2 fs-5">Профиль</span></a>
         }
+
         <a href="tel:+89183586812" class="btn text-black fw-bold ms-auto me-4 fs-2">📞 8918-358-68-12</a>
         <ul class="navbar-nav d-flex flex-row position-absolute start-50 translate-middle-x fs-5">
             <li class="nav-item me-4">
@@ -102,7 +103,7 @@
                 </div>
                 
                 <div class="modal-body  align-items-center justify-content-center ">
-                    <form method="post" asp-page-handler="Logout">
+                    <form method="post" asp-page="/Account/Logout">
                     <button type="submit" class="btn btn-dark w-75">Выйти</button>
                     </form>
                 </div>

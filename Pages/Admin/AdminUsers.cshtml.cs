@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace MyRazorApp.Pages.Admin
 {
-    // [Authorize(Roles = "ADMIN")]
     public class AdminUsersModel : PageModel
     {
         private readonly AppDbContext _context;

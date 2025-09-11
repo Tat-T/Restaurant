@@ -1,22 +1,26 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using MyRazorApp.Data;
+using MyRazorApp.Models;
 
 [Authorize]
 public class Index2Model : PageModel
 {
     public readonly AppDbContext _context;
+     private readonly SignInManager<User> _signInManager;
 
-    public Index2Model(AppDbContext context)
+    public Index2Model(AppDbContext context, SignInManager<User> signInManager)
     {
         _context = context;
+        _signInManager = signInManager;
     }
-    public List<DishViewModel> Dishes { get; set; } = new ();
+    public List<DishViewModel> Dishes { get; set; } = new();
 
-    public List<Reservation> Reservations { get; set; } = new ();
+    public List<Reservation> Reservations { get; set; } = new();
 
     public async Task<IActionResult> OnGetAsync()
     {
@@ -60,4 +64,10 @@ public class Index2Model : PageModel
 
         return Page();
     }
+     public async Task<IActionResult> OnPostLogoutAsync()
+        {
+            await _signInManager.SignOutAsync();
+            HttpContext.Session.Clear();
+            return RedirectToPage("/Account/Login");
+        }
 }

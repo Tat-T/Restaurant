@@ -58,13 +58,14 @@ namespace MyRazorApp.Pages.Account
                 Email = Input.Email,
                 PhoneNumber = Input.PhoneNumber,
                 CreationDate = DateTime.UtcNow,
-                IdRole = 5,
+                IdRole = 3,
                 IsActive = true
             };
 
             var result = await _userManager.CreateAsync(user, Input.Password);
             if (result.Succeeded)
             {
+                await _userManager.AddToRoleAsync(user, "User");
                 await _signInManager.SignInAsync(user, isPersistent: false);
                 return RedirectToPage("/Zakaz");
             }

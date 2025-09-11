@@ -4,6 +4,21 @@ using Microsoft.EntityFrameworkCore;
 using MyRazorApp.Data;
 using MyRazorApp.Models;
 
+async Task SeedRolesAsync(IServiceProvider serviceProvider)
+{
+    var roleManager = serviceProvider.GetRequiredService<RoleManager<UserRole>>();
+
+    string[] roles = { "Admin", "User" };
+
+    foreach (var role in roles)
+    {
+        if (!await roleManager.RoleExistsAsync(role))
+        {
+            await roleManager.CreateAsync(new UserRole { Name = role });
+        }
+    }
+}
+
 var builder = WebApplication.CreateBuilder(args);
 
 // DbContext
@@ -42,6 +57,12 @@ builder.Services.AddSession();
 
 
 var app = builder.Build();
+
+// Создание ролей при старте
+using (var scope = app.Services.CreateScope())
+{
+    await SeedRolesAsync(scope.ServiceProvider);
+}
 
 var cultureInfo = new CultureInfo("ru-RU");
 CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
