@@ -1,18 +1,22 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyRazorApp.Data;
 using MyRazorApp.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace MyRazorApp.Pages
 {
     public class ZakazModel : PageModel
     {
         private readonly AppDbContext _context;
+        private readonly UserManager<User> _userManager;
 
-        public ZakazModel(AppDbContext context)
+        public ZakazModel(AppDbContext context, UserManager<User> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         [BindProperty]
@@ -27,6 +31,18 @@ namespace MyRazorApp.Pages
 
         public async Task OnGetAsync()
         {
+            // Автозаполнение если юзер вошёл
+            if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                 var user = await _userManager.GetUserAsync(User);
+                if (user != null)
+                {
+                    Reservation.Name = user.Name;
+                    Reservation.Email = user.Email ?? string.Empty;
+                    Reservation.Phone = user.PhoneNumber ?? string.Empty;
+                }
+            }
+
             // Доступные даты (например, ближайшие 7 дней)
             AvailableDates = Enumerable.Range(0, 7)
                 .Select(offset => DateTime.Today.AddDays(offset))
@@ -43,7 +59,7 @@ namespace MyRazorApp.Pages
             BookedSlots = reservations
                 .GroupBy(r => r.ReservationDate.Date)
                 .ToDictionary(
-                    g => g.Key.ToString("yyyy-MM-dd"), // ключ — дата в строке
+                    g => g.Key.ToString("yyyy-MM-dd"),
                     g => g.Select(r => r.ReservationTime.ToString(@"hh\:mm")).ToList()
                 );
         }
@@ -54,6 +70,14 @@ namespace MyRazorApp.Pages
             {
                 await OnGetAsync();
                 return Page();
+            }
+
+            // Если юзер авторизован — гарантированно сохраняем его данные
+            if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                Reservation.Email = User.FindFirstValue(ClaimTypes.Email) ?? Reservation.Email;
+                Reservation.Name = User.FindFirstValue(ClaimTypes.GivenName) ?? Reservation.Name;
+                Reservation.Phone = User.FindFirstValue(ClaimTypes.MobilePhone) ?? Reservation.Phone;
             }
 
             _context.Reservations.Add(Reservation);
