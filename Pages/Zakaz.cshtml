@@ -90,3 +90,12 @@
     <script src="~/js/zakaz.js"></script>
     <partial name="_ValidationScriptsPartial" />
 }
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let todayStr = new Date().toISOString().split('T')[0]; // yyyy-MM-dd
+        let todayBtn = document.querySelector(`.date-btn[data-date='${todayStr}']`);
+        if (todayBtn) {
+            todayBtn.click(); // вызовет selectDate и заблокирует прошедшие часы
+        }
+    });
+</script>

@@ -21,6 +21,23 @@ function selectDate(date) {
             }
         });
     }
+
+    // Если выбрана сегодняшняя дата — блокируем прошедшие часы
+    let todayStr = new Date().toISOString().split('T')[0]; // формат yyyy-MM-dd
+    if (date === todayStr) {
+        let now = new Date();
+        let currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+        document.querySelectorAll(".time-btn").forEach(btn => {
+            let [h, m] = btn.dataset.time.split(":").map(Number);
+            let btnMinutes = h * 60 + m;
+
+            if (btnMinutes <= currentMinutes) {
+                btn.disabled = true;
+                btn.classList.add("disabled");
+            }
+        });
+    }
 }
 
 function selectTime(time) {

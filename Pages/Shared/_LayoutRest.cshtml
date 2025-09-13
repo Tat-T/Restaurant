@@ -48,7 +48,7 @@
         {
             <li class="nav-item me-4">
                 <a class="nav-link fw-bold" asp-page="/Zakaz" data-bs-toggle="modal"
-                    data-bs-target="#registerModal">Заказ столиков</a>
+                    data-bs-target="#registerModal2">Заказ столиков</a>
             </li>
         }
             <li class="nav-item me-4 fw-bold">
@@ -59,7 +59,8 @@
             </li>
         </ul>
     </div>
-    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+
+    @* <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -75,7 +76,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> *@
 
     <div class="modal fade" id="registerModal2" tabindex="-1" aria-labelledby="registerModalLabel2" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -102,13 +103,13 @@
     outline: none;" data-bs-dismiss="modal" aria-label="Закрыть"></button>
                 </div>
                 
-                <div class="modal-body  d-flex flex-column align-items-center justify-content-center ">
                     @* <form method="post" asp-page="/Account/Logout" asp-page-handler="Logout">
                     <button type="submit" class="btn btn-dark w-75">Выйти</button>
                     </form> *@
-                     <form  method="post" asp-page-handler="Logout">
-                <button href="/Account/Logout" type="submit" class="btn btn-dark W-75">Выйти</button>
-            </form>
+                <div class="modal-body  d-flex flex-column align-items-center justify-content-center ">
+                <form  method="post" asp-page-handler="Logout">
+                <button type="submit" class="btn btn-dark" style="width: 350px;">Выйти</button>
+                </form>
                 </div>
                 
                 <div class="modal-body d-flex flex-column align-items-center justify-content-center mb-4">
