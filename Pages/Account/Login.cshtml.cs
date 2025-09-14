@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -15,13 +16,21 @@ public class LoginModel : PageModel
     }
 
     [BindProperty]
-    public string Email { get; set; }
+    [Required(ErrorMessage = "Введите Email")]
+    [EmailAddress(ErrorMessage = "Некорректный Email")]
+    public string Email { get; set; } = string.Empty;
 
     [BindProperty]
-    public string Password { get; set; }
+    [Required(ErrorMessage = "Введите пароль")]
+    public string Password { get; set; } = string.Empty;
 
     public async Task<IActionResult> OnPostAsync()
     {
+        if (!ModelState.IsValid)
+        {
+            return Page(); // Ошибки попадут в asp-validation-for
+        }
+
         var user = await _userManager.FindByEmailAsync(Email);
         if (user != null && user.IsActive)
         {
