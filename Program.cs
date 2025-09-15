@@ -51,10 +51,12 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
+// добавляем поддержку контроллеров API
+builder.Services.AddControllers();
+
+// Razor Pages остаются
 builder.Services.AddRazorPages();
 builder.Services.AddAuthorization();
-builder.Services.AddSession();
-
 
 var app = builder.Build();
 
@@ -64,6 +66,7 @@ using (var scope = app.Services.CreateScope())
     await SeedRolesAsync(scope.ServiceProvider);
 }
 
+// Культура
 var cultureInfo = new CultureInfo("ru-RU");
 CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
 CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
@@ -71,9 +74,13 @@ CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 app.UseSession();
 app.UseStaticFiles();
 app.UseRouting();
-app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 
+// подключаем маршруты для API контроллеров
+app.MapControllers();
+
+// Razor Pages
 app.MapRazorPages();
+
 app.Run();
