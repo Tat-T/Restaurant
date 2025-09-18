@@ -1,7 +1,13 @@
-@page
+@* @page
 @model MyRazorApp.Pages.IndexModel
 @{
     ViewData["Title"] = "Home page";
     Layout = "/Pages/Shared/_LayoutRest.cshtml";
 }
-<div><h1>Вы вышли!</h1></div>
+<div><h1>Вы вышли!</h1></div> *@
+
+@page
+@model MyRazorApp.Pages.Account.LogoutModel
+@{
+    Layout = null; 
+}
