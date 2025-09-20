@@ -9,7 +9,7 @@ namespace MyRazorApp.Data
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-        public DbSet<Reservation> Reservations { get; set; }
+        public DbSet<Reservation> Reservations { get; set; } = null!;
         public DbSet<Dishes> Dishes { get; set; }
         public DbSet<DishIngredients> DishIngredients { get; set; }
         public DbSet<Ingredients> Ingredients { get; set; }

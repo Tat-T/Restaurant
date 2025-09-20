@@ -1,37 +1,38 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.AspNetCore.Authorization;
 
-[Authorize]
 public class Reservation
 {
-    [Key] // Указывает, что Id — это первичный ключ
+    [Key] // Первичный ключ
     public int Id { get; set; }
 
     [Required]
+    [StringLength(100)] // Ограничим имя по длине
     public string Name { get; set; } = string.Empty;
 
     [Required]
-    [EmailAddress] // Проверка на корректность email
+    [EmailAddress] // Проверка на email
     public string Email { get; set; } = string.Empty;
 
     [Required]
-    [Phone] // Проверка на корректный номер телефона
+    [Phone] // Проверка на телефон
     public string Phone { get; set; } = string.Empty;
 
     [Required]
-    [DataType(DataType.Date)] // Указывает, что это дата
+    [DataType(DataType.Date)]
     public DateTime ReservationDate { get; set; } = DateTime.Today;
 
     [Required]
-    [DataType(DataType.Time)] // Указывает, что это время
+    [DataType(DataType.Time)]
     public TimeSpan ReservationTime { get; set; }
 
     [Required]
-    [Range(1, 100)] // Минимальное и максимальное число гостей
+    [Range(1, 50)] // допустим, максимум 50 гостей
     public int Guests { get; set; }
+
+    [MaxLength(500)] // ограничение длины заметки
     public string? Message { get; set; }
 
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)] // Автоматическое создание времени
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 }
