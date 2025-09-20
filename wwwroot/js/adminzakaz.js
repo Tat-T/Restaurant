@@ -122,3 +122,4 @@ document.getElementById('editReservationForm').addEventListener('submit', async 
 const urlParams = new URLSearchParams(window.location.search);
 const reservationId = urlParams.get('id');
 if (reservationId) loadReservation(reservationId);
+

@@ -19,38 +19,38 @@ namespace Restaurant.Api.Reservations
 
         // Получение конкретного бронирования по ID
         [HttpGet("{id}")]
-public async Task<IActionResult> GetReservation(int id)
-{
-    var reservation = await _context.Reservations.FindAsync(id);
-    if (reservation == null) return NotFound();
+        public async Task<IActionResult> GetReservation(int id)
+        {
+            var reservation = await _context.Reservations.FindAsync(id);
+            if (reservation == null) return NotFound();
 
-    var today = DateTime.Today;
+            var today = DateTime.Today;
 
-    var availableDates = Enumerable.Range(0, 7)
-                                   .Select(offset => today.AddDays(offset))
-                                   .ToList();
+            var availableDates = Enumerable.Range(0, 7)
+                                           .Select(offset => today.AddDays(offset))
+                                           .ToList();
 
-    var availableTimes = Enumerable.Range(12, 11)
-                                   .Select(h => new TimeSpan(h, 0, 0))
-                                   .ToList();
+            var availableTimes = Enumerable.Range(12, 11)
+                                           .Select(h => new TimeSpan(h, 0, 0))
+                                           .ToList();
 
-    var reservations = await _context.Reservations.ToListAsync();
+            var reservations = await _context.Reservations.ToListAsync();
 
-    var bookedSlots = reservations
-        .GroupBy(r => r.ReservationDate.ToString("yyyy-MM-dd"))
-        .ToDictionary(
-            g => g.Key,
-            g => g.Select(r => r.ReservationTime.ToString(@"hh\:mm")).ToList()
-        );
+            var bookedSlots = reservations
+                .GroupBy(r => r.ReservationDate.ToString("yyyy-MM-dd"))
+                .ToDictionary(
+                    g => g.Key,
+                    g => g.Select(r => r.ReservationTime.ToString(@"hh\:mm")).ToList()
+                );
 
-    return Ok(new
-    {
-        reservation,
-        availableDates = availableDates.Select(d => d.ToString("yyyy-MM-dd")),
-        availableTimes = availableTimes.Select(t => t.ToString(@"hh\:mm")),
-        bookedSlots
-    });
-}
+            return Ok(new
+            {
+                reservation,
+                availableDates = availableDates.Select(d => d.ToString("yyyy-MM-dd")),
+                availableTimes = availableTimes.Select(t => t.ToString(@"hh\:mm")),
+                bookedSlots
+            });
+        }
 
 
         // Редактирование бронирования
@@ -100,5 +100,21 @@ public async Task<IActionResult> GetReservation(int id)
 
             return Ok(new { message = "Бронирование успешно создано" });
         }
-    }
+        
+        // Удаление бронирования
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteReservation(int id)
+        {
+            var reservation = await _context.Reservations.FindAsync(id);
+            if (reservation == null)
+            {
+                return NotFound(new { message = "Бронирование не найдено" });
+            }
+    
+            _context.Reservations.Remove(reservation);
+            await _context.SaveChangesAsync();
+    
+            return Ok(new { message = "Бронирование успешно удалено" });
+        }
+        }
 }
