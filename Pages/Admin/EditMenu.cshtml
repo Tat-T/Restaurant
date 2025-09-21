@@ -1,4 +1,4 @@
-@page "{id:int}"
+@page "{id?}"
 @{
     ViewData["Title"] = "Редактировать блюдо";
     Layout = "/Pages/Shared/_LayoutRest.cshtml";
@@ -14,29 +14,29 @@
 
         <div class="mb-3">
             <label class="form-label">Название блюда</label>
-            <input name="DishName" id="DishName" class="form-control" required />
+            <input name="DishName" id="DishName" class="form-control border border-secondary focus-ring focus-ring-dark" required />
         </div>
 
         <div class="mb-3">
             <label class="form-label">Цена</label>
-            <input name="Price" id="Price" type="number" step="0.01" class="form-control" required />
+            <input name="Price" id="Price" type="number" step="0.01" class="form-control border border-secondary focus-ring focus-ring-dark" required />
         </div>
 
         <div class="mb-3" id="currentImageContainer"></div>
 
         <div class="mb-3">
             <label class="form-label">Новая картинка</label>
-            <input type="file" name="image" class="form-control" />
+            <input type="file" name="image" class="form-control border border-secondary focus-ring focus-ring-dark" />
         </div>
 
         <div class="form-check mb-3">
-            <input type="checkbox" name="removeImage" class="form-check-input" id="removeImage" />
+            <input type="checkbox" name="removeImage" class="form-check-input bg-dark border border-secondary focus-ring focus-ring-dark" id="removeImage" />
             <label for="removeImage" class="form-check-label">Удалить картинку</label>
         </div>
 
         <div class="mb-3">
             <label class="form-label">Ингредиенты (через запятую)</label>
-            <input name="IngredientNames" id="IngredientNames" class="form-control" />
+            <input name="IngredientNames" id="IngredientNames" class="form-control border border-secondary focus-ring focus-ring-dark" />
         </div>
 
         <button type="submit" class="btn btn-dark">Сохранить</button>
