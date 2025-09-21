@@ -39,14 +39,14 @@ namespace MyRazorApp.Pages.Admin
             if (UploadImage != null)
             {
                 var fileName = $"{Guid.NewGuid()}{Path.GetExtension(UploadImage.FileName)}";
-                var filePath = Path.Combine(_environment.WebRootPath, "images", fileName);
+                var filePath = Path.Combine(_environment.WebRootPath, "image", fileName);
 
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     await UploadImage.CopyToAsync(stream);
                 }
 
-                imagePath = "/images/" + fileName;
+                imagePath = "/image/" + fileName;
             }
 
             var dish = new Dishes

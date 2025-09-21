@@ -27,15 +27,28 @@ async function loadMenu() {
     });
 }
 
-async function deleteDish(id) {
-    if (!confirm("Удалить блюдо?")) return;
+ async function deleteDish(id) {
+        if (!confirm("Удалить блюдо?")) return;
 
-    const res = await fetch(`/api/Menu/${id}`, { method: "DELETE" });
-    if (res.ok) {
-        loadMenu();
-    } else {
-        alert("Ошибка при удалении");
+        try {
+            const response = await fetch(`/api/Menu/${id}`, {
+                method: "DELETE",
+                headers: {
+                    "Accept": "application/json"
+                }
+            });
+
+            if (response.ok) {
+                alert("Блюдо удалено!");
+                location.reload();
+            } else {
+                const data = await response.json();
+                alert(data.message || "Ошибка при удалении");
+            }
+        } catch (error) {
+            alert("Ошибка подключения к серверу");
+            console.error(error);
+        }
     }
-}
 
 document.addEventListener("DOMContentLoaded", loadMenu);

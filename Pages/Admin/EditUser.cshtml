@@ -6,6 +6,9 @@
 }
 
 <div class="container rounded-4 p-3 mt-3 w-50">
+<button type="button" class="btn-close position-absolute top-0 end-0 m-3" style=" box-shadow: none;
+    outline: none;" aria-label="Close" data-bs-dismiss="modal" onclick="history.back()">
+    </button>
     <h2 class="text-center">Редактировать пользователя</h2>
     <form method="post">
         <input type="hidden" asp-for="User.Id" />

@@ -1,69 +1,49 @@
 @page "{id:int}"
-@model EditMenuModel
 @{
     ViewData["Title"] = "Редактировать блюдо";
     Layout = "/Pages/Shared/_LayoutRest.cshtml";
 }
 
 <div class="container mt-5 p-3 rounded-4 w-50">
-    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" style=" box-shadow: none;
-    outline: none;" aria-label="Close" data-bs-dismiss="modal" onclick="window.location.href='/Admin/MenuAdmin';">
-    </button>
+    <button type="button" class="btn-close position-absolute top-0 end-0 m-3"
+            onclick="window.location.href='/Admin/MenuAdmin';"></button>
     <h2 class="text-center mb-2">Редактирование блюда</h2>
 
-    @if (!string.IsNullOrEmpty(Model.StatusMessage))
-    {
-        <div class="alert alert-success">@Model.StatusMessage</div>
-    }
+    <form id="editDishForm" enctype="multipart/form-data">
+        <input type="hidden" name="DishID" id="DishID" />
 
-    <form method="post" enctype="multipart/form-data">
         <div class="mb-3">
-            <label asp-for="DishInput.DishName" class="form-label">Название блюда</label>
-            <input asp-for="DishInput.DishName"
-                class="form-control border border-secondary focus-ring focus-ring-dark" />
-            <span asp-validation-for="DishInput.DishName" class="text-danger"></span>
+            <label class="form-label">Название блюда</label>
+            <input name="DishName" id="DishName" class="form-control" required />
         </div>
 
         <div class="mb-3">
-            <label asp-for="DishInput.Price" class="form-label">Цена</label>
-            <input asp-for="DishInput.Price" type="number" step="0.01"
-                class="form-control border border-secondary focus-ring focus-ring-dark" />
-            <span asp-validation-for="DishInput.Price" class="text-danger"></span>
+            <label class="form-label">Цена</label>
+            <input name="Price" id="Price" type="number" step="0.01" class="form-control" required />
         </div>
 
-        @if (!string.IsNullOrEmpty(Model.DishInput.DishImage))
-        {
-            <div class="mb-3">
-                <img src="@Model.DishInput.DishImage" alt="Current image" style="max-width:200px;" />
-
-                <div class="form-check mt-2">
-                    <input asp-for="RemoveImage" class="form-check-input bg-dark border border-secondary focus-ring focus-ring-dark" type="checkbox" />
-                    <label asp-for="RemoveImage" class="form-check-label ">Удалить картинку</label>
-                </div>
-            </div>
-        }
+        <div class="mb-3" id="currentImageContainer"></div>
 
         <div class="mb-3">
             <label class="form-label">Новая картинка</label>
-            <input type="file" asp-for="UploadImage"
-                class="form-control border border-secondary focus-ring focus-ring-dark" />
+            <input type="file" name="image" class="form-control" />
+        </div>
+
+        <div class="form-check mb-3">
+            <input type="checkbox" name="removeImage" class="form-check-input" id="removeImage" />
+            <label for="removeImage" class="form-check-label">Удалить картинку</label>
         </div>
 
         <div class="mb-3">
-            <label asp-for="DishInput.IngredientNames" class="form-label">Ингредиенты</label>
-            <input asp-for="DishInput.IngredientNames"
-                class="form-control border border-secondary focus-ring focus-ring-dark" />
-            <span asp-validation-for="DishInput.IngredientNames" class="text-danger"></span>
+            <label class="form-label">Ингредиенты (через запятую)</label>
+            <input name="IngredientNames" id="IngredientNames" class="form-control" />
         </div>
 
-        <input type="hidden" asp-for="DishInput.DishID" />
-        <input type="hidden" asp-for="DishInput.DishImage" />
-
         <button type="submit" class="btn btn-dark">Сохранить</button>
-        <a asp-page="/Admin/MenuAdmin" class="btn btn-secondary ms-2">Отмена</a>
+        <a href="/Admin/MenuAdmin" class="btn btn-secondary ms-2">Отмена</a>
     </form>
 </div>
 
-@* @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-} *@
+@section Scripts {
+    <script src="~/js/editMenu.js"></script>
+}
