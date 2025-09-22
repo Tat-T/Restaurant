@@ -33,27 +33,60 @@ namespace MyRazorApp.Api
             return Ok(roles);
         }
 
+        // GET: api/users
+        [HttpGet]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var users = await _context.Users
+                .Include(u => u.UserRole)
+                .AsNoTracking()
+                .Select(u => new 
+                {
+                    u.Id,
+                    u.SurName,
+                    u.Name,
+                    u.Patronomic,
+                    u.UserName,
+                    u.Email,
+                    u.PhoneNumber,
+                    u.Birthdate,
+                    u.CreationDate,
+                    u.IsActive,
+                    UserRole = u.UserRole != null ? new { u.UserRole.Id, u.UserRole.Name } : null
+                })
+                .ToListAsync();
+
+            return Ok(users);
+        }
+
         // Получить пользователя по Id
         // GET: api/users/{id}
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetUser(int id)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+            var user = await _context.Users
+                .Include(u => u.UserRole)
+                .AsNoTracking()
+                .Where(u => u.Id == id)
+                .Select(u => new 
+                {
+                    u.Id,
+                    u.SurName,
+                    u.Name,
+                    u.Patronomic,
+                    u.UserName,
+                    u.Email,
+                    u.PhoneNumber,
+                    u.Birthdate,
+                    u.CreationDate,
+                    u.IsActive,
+                    UserRole = u.UserRole != null ? new { u.UserRole.Id, u.UserRole.Name } : null
+                })
+                .FirstOrDefaultAsync();
+
             if (user == null) return NotFound(new { message = "Пользователь не найден" });
 
-            return Ok(new
-            {
-                user.Id,
-                user.SurName,
-                user.Name,
-                user.Patronomic,
-                user.UserName,
-                user.Email,
-                user.PhoneNumber,
-                user.Birthdate,
-                user.IdRole,
-                user.IsActive
-            });
+            return Ok(user);
         }
 
         // Добавить нового пользователя
