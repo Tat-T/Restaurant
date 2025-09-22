@@ -21,15 +21,43 @@ namespace MyRazorApp.Api
             _passwordHasher = passwordHasher;
         }
 
-        [HttpGet("Roles")]
+        // Получить список всех ролей
+        // GET: api/users/roles
+        [HttpGet("roles")]
         public async Task<IActionResult> GetRoles()
         {
             var roles = await _context.Roles
                 .Select(r => new { id = r.Id, name = r.Name })
                 .ToListAsync();
+
             return Ok(roles);
         }
 
+        // Получить пользователя по Id
+        // GET: api/users/{id}
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetUser(int id)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+            if (user == null) return NotFound(new { message = "Пользователь не найден" });
+
+            return Ok(new
+            {
+                user.Id,
+                user.SurName,
+                user.Name,
+                user.Patronomic,
+                user.UserName,
+                user.Email,
+                user.PhoneNumber,
+                user.Birthdate,
+                user.IdRole,
+                user.IsActive
+            });
+        }
+
+        // Добавить нового пользователя
+        // POST: api/users
         [HttpPost]
         public async Task<IActionResult> AddUser([FromBody] AddUserDto model)
         {
@@ -56,8 +84,56 @@ namespace MyRazorApp.Api
 
             return Ok(new { message = "Пользователь добавлен", user.Id });
         }
+
+        // Обновить пользователя
+        // PUT: api/users/{id}
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> UpdateUser(int id, [FromBody] UpdateUserDto model)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+            if (user == null) return NotFound(new { message = "Пользователь не найден" });
+
+            // обновляем данные
+            user.SurName = model.SurName;
+            user.Name = model.Name;
+            user.Patronomic = model.Patronomic;
+            user.UserName = model.UserName;
+            user.Email = model.Email;
+            user.PhoneNumber = model.PhoneNumber;
+            user.Birthdate = model.Birthdate;
+            user.IdRole = model.IdRole;
+            user.IsActive = model.IsActive;
+
+            // если новый пароль передан — обновляем
+            if (!string.IsNullOrWhiteSpace(model.NewPassword))
+            {
+                user.PasswordHash = _passwordHasher.HashPassword(user, model.NewPassword);
+            }
+
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Пользователь обновлён", user.Id });
+        }
+
+        // Удалить пользователя
+        // DELETE: api/users/{id}
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> DeleteUser(int id)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+            if (user == null) return NotFound(new { message = "Пользователь не найден" });
+
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Пользователь удалён", user.Id });
+        }
     }
 
+    // DTO для создания
     public class AddUserDto
     {
         public string SurName { get; set; } = "";
@@ -65,6 +141,21 @@ namespace MyRazorApp.Api
         public string? Patronomic { get; set; }
         public string UserName { get; set; } = "";
         public string Password { get; set; } = "";
+        public string? Email { get; set; }
+        public string? PhoneNumber { get; set; }
+        public DateTime? Birthdate { get; set; }
+        public int IdRole { get; set; }
+        public bool IsActive { get; set; }
+    }
+
+    // DTO для обновления
+    public class UpdateUserDto
+    {
+        public string SurName { get; set; } = "";
+        public string Name { get; set; } = "";
+        public string? Patronomic { get; set; }
+        public string UserName { get; set; } = "";
+        public string? NewPassword { get; set; }
         public string? Email { get; set; }
         public string? PhoneNumber { get; set; }
         public DateTime? Birthdate { get; set; }

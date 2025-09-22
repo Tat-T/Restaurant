@@ -1,75 +1,76 @@
 @page "{id:int}"
-@model MyRazorApp.Pages.Admin.EditUserModel
 @{
     ViewData["Title"] = "Редактировать пользователя";
     Layout = "/Pages/Shared/_LayoutRest.cshtml";
 }
 
 <div class="container rounded-4 p-3 mt-3 w-50">
-<button type="button" class="btn-close position-absolute top-0 end-0 m-3" style=" box-shadow: none;
-    outline: none;" aria-label="Close" data-bs-dismiss="modal" onclick="history.back()">
-    </button>
-    <h2 class="text-center">Редактировать пользователя</h2>
-    <form method="post">
-        <input type="hidden" asp-for="User.Id" />
+  <button type="button" class="btn-close position-absolute top-0 end-0 m-3"
+          aria-label="Close" onclick="history.back()">
+  </button>
+  <h2 class="text-center">Редактировать пользователя</h2>
 
-        <div>
-            <label asp-for="User.SurName" class="form-label fw-semibold">Фамилия</label>
-            <input asp-for="User.SurName" class="form-control border border-secondary focus-ring focus-ring-dark" />
-            <span asp-validation-for="User.SurName" class="text-danger"></span>
-        </div>
-        <div>
-            <label asp-for="User.Name" class="form-label fw-semibold">Имя</label>
-            <input asp-for="User.Name" class="form-control border border-secondary focus-ring focus-ring-dark" />
-            <span asp-validation-for="User.Name" class="text-danger"></span>
-        </div>
-        <div>
-            <label asp-for="User.Patronomic" class="form-label fw-semibold">Отчество</label>
-            <input asp-for="User.Patronomic" class="form-control border border-secondary focus-ring focus-ring-dark" />
-            <span asp-validation-for="User.Patronomic" class="text-danger"></span>
-        </div>
-        <div>
-            <label asp-for="User.UserName" class="form-label fw-semibold">Логин</label>
-            <input asp-for="User.UserName" class="form-control border border-secondary focus-ring focus-ring-dark" />
-            <span asp-validation-for="User.UserName" class="text-danger"></span>
-        </div>
-        <div>
-            <label asp-for="NewPassword" class="form-label fw-semibold">Пароль</label>
-            <input asp-for="NewPassword" type="password" class="form-control border border-secondary focus-ring focus-ring-dark" />
-            <span asp-validation-for="NewPassword" class="text-danger"></span>
-        </div>
-        <div>
-            <label asp-for="User.Email" class="form-label fw-semibold">e-mail</label>
-            <input asp-for="User.Email" class="form-control border border-secondary focus-ring focus-ring-dark" />
-            <span asp-validation-for="User.Email" class="text-danger"></span>
-        </div>
-        <div>
-            <label asp-for="User.PhoneNumber" class="form-label fw-semibold">тел.:</label>
-            <input asp-for="User.PhoneNumber" class="form-control border border-secondary focus-ring focus-ring-dark" />
-            <span asp-validation-for="User.PhoneNumber" class="text-danger"></span>
-        </div>
-        <div>
-            <label asp-for="User.Birthdate" class="form-label fw-semibold">Дата рождения</label>
-            <input asp-for="User.Birthdate" type="date" class="form-control border border-secondary focus-ring focus-ring-dark" />
-            <span asp-validation-for="User.Birthdate" class="text-danger"></span>
-        </div>
-        <div class="mb-3">
-            <label asp-for="SelectedRoleId" class="form-label fw-semibold">Роль</label>
-            <select asp-for="SelectedRoleId" asp-items="Model.RoleList" class="form-select border border-secondary focus-ring focus-ring-dark"></select>
-            <span asp-validation-for="SelectedRoleId" class="text-danger"></span>
-        </div>
-        <div class="mb-3 form-check">
-            <input asp-for="User.IsActive" class="form-check-input bg-dark border border-secondary focus-ring focus-ring-dark" />
-            <label asp-for="User.IsActive" class="form-check-label fw-semibold ">Активен</label>
-        </div>
+  <form id="editUserForm">
+    <input type="hidden" id="UserId" value="@RouteData.Values["id"]" />
 
-        <div class="text-center">
-            <button type="submit" class="btn btn-dark">Сохранить</button>
-            <a asp-page="/Admin/AdminUsers" class="btn btn-secondary">Отмена</a>
-        </div>
-    </form>
+    <div>
+      <label class="form-label fw-semibold">Фамилия</label>
+      <input id="SurName" class="form-control" />
+    </div>
+
+    <div>
+      <label class="form-label fw-semibold">Имя</label>
+      <input id="Name" class="form-control" />
+    </div>
+
+    <div>
+      <label class="form-label fw-semibold">Отчество</label>
+      <input id="Patronomic" class="form-control" />
+    </div>
+
+    <div>
+      <label class="form-label fw-semibold">Логин</label>
+      <input id="UserName" class="form-control" />
+    </div>
+
+    <div>
+      <label class="form-label fw-semibold">Пароль</label>
+      <input id="NewPassword" type="password" class="form-control" />
+    </div>
+
+    <div>
+      <label class="form-label fw-semibold">Email</label>
+      <input id="Email" class="form-control" />
+    </div>
+
+    <div>
+      <label class="form-label fw-semibold">Телефон</label>
+      <input id="PhoneNumber" class="form-control" />
+    </div>
+
+    <div>
+      <label class="form-label fw-semibold">Дата рождения</label>
+      <input id="Birthdate" type="date" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-semibold">Роль</label>
+      <select id="IdRole" class="form-select"></select>
+    </div>
+
+    <div class="mb-3 form-check">
+      <input type="checkbox" id="IsActive" class="form-check-input" />
+      <label class="form-check-label fw-semibold">Активен</label>
+    </div>
+
+    <div class="text-center">
+      <button type="submit" class="btn btn-dark">Сохранить</button>
+      <a href="/Admin/AdminUsers" class="btn btn-secondary">Отмена</a>
+    </div>
+  </form>
 </div>
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/editUser.js"></script>
 }
+
