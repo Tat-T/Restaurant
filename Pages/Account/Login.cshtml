@@ -1,9 +1,9 @@
 @page
-@model LoginModel
 @{
     ViewData["Title"] = "Авторизация";
     Layout = "/Pages/Shared/_Layout.cshtml";
 }
+
 <form id="loginForm"
       class="container col-6 rounded p-3 mt-3 position-absolute top-50 start-50 translate-middle shadow-lg">
     <div class="row m-3">
@@ -31,7 +31,3 @@
 </form>
 
 <script src="~/js/login.js"></script>
-
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
