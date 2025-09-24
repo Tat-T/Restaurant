@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MyRazorApp.Models;
 
+namespace Restaurant.Api
+{
 [Route("api/[controller]")]
 [ApiController]
 public class AccountController : ControllerBase
@@ -56,4 +58,5 @@ public class AccountController : ControllerBase
 
         return Ok(new { message = "Регистрация успешна", redirectUrl = "/Zakaz" });
     }
+}
 }

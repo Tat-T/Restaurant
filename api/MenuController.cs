@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyRazorApp.Data;
 
-namespace MyRazorApp.Api
+namespace Restaurant.Api
 {
     [Authorize(Roles = "Admin")]
     [ApiController]

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using MyRazorApp.Data;
 using MyRazorApp.Models;
 
-namespace Restaurant.Api.Reservations
+namespace Restaurant.Api
 {
     [Authorize]
     [ApiController]

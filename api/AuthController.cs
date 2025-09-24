@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MyRazorApp.Models;
 
-namespace MyRazorApp.Api
+namespace Restaurant.Api
 {
     [ApiController]
     [Route("api/[controller]")]
