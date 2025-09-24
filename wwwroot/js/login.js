@@ -14,7 +14,7 @@ document.getElementById("loginForm").addEventListener("submit", async function (
         if (response.ok) {
             const result = await response.json();
             if (result.role === "Admin") {
-                window.location.href = "/Account/AdminPanel";
+                window.location.href = "/Admin/AdminPanel";
             } else {
                 window.location.href = "/Account/Index";
             }
