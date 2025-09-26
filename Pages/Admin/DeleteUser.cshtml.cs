@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using MyRazorApp.Data;
 using MyRazorApp.Models;
-using System.Threading.Tasks;
 
 namespace MyRazorApp.Pages.Admin
 {

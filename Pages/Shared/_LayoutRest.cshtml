@@ -103,13 +103,11 @@
     outline: none;" data-bs-dismiss="modal" aria-label="Закрыть"></button>
                 </div>
                 
-                    @* <form method="post" asp-page="/Account/Logout" asp-page-handler="Logout">
-                    <button type="submit" class="btn btn-dark w-75">Выйти</button>
-                    </form> *@
                 <div class="modal-body  d-flex flex-column align-items-center justify-content-center ">
-                <form  method="post" asp-page="/Account/Logout" asp-page-handler="Logout">
+                @* <form  method="post" asp-page="/Account/Logout" asp-page-handler="Logout">
                 <button type="submit" class="btn btn-dark" style="width: 350px;">Выйти</button>
-                </form>
+                </form> *@
+                <button id="logoutBtn" class="btn btn-dark w-75">Выйти</button>
                 </div>
                 
                 <div class="modal-body d-flex flex-column align-items-center justify-content-center mb-4">
@@ -123,6 +121,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     @RenderBody()
     @RenderSection("Scripts", required: false)
+    <script src="~/js/logout.js"></script>
 
 </body>
 
