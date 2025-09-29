@@ -22,7 +22,7 @@
 
         @if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("User"))
         {
-            <a class="nav-link fw-bold" asp-page="/Account/Index"><span class="p-2 fs-5">Профиль</span></a>
+            <a class="nav-link fw-bold" asp-page="/Account/UserAccount"><span class="p-2 fs-5">Профиль</span></a>
         }
 
         @if (User.Identity != null && User.Identity.IsAuthenticated && (User.IsInRole("Admin")))

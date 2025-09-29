@@ -16,7 +16,7 @@ document.getElementById("loginForm").addEventListener("submit", async function (
             if (result.role === "Admin") {
                 window.location.href = "/Admin/AdminPanel";
             } else {
-                window.location.href = "/Account/Index";
+                window.location.href = "/Account/UserAccount";
             }
         } else {
             const error = await response.json();
@@ -26,3 +26,4 @@ document.getElementById("loginForm").addEventListener("submit", async function (
         document.getElementById("errorMessage").textContent = "Ошибка соединения с сервером.";
     }
 });
+

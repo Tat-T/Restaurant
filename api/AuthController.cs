@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MyRazorApp.Models;
@@ -37,11 +38,30 @@ namespace Restaurant.Api
             return Ok(new { message = "Успешный вход", role = user.IdRole == 1 ? "Admin" : "User" });
         }
 
+        [HttpGet("user")]
+        public IActionResult GetCurrentUser()
+        {
+            if (User.Identity?.IsAuthenticated ?? false)
+            {
+                var role = User.IsInRole("Admin") ? "Admin" : "User";
+                return Ok(new
+                {
+                    isAuthenticated = true,
+                    role = role,
+                    email = User.Identity.Name
+                });
+            }
+
+            return Ok(new { isAuthenticated = false });
+        }
+        
         [HttpPost("logout")]
+        [Authorize]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
             HttpContext.Session.Clear();
+            
             return Ok(new { message = "Вы вышли из системы" });
         }
     }

@@ -5,9 +5,9 @@ using MyRazorApp.Data;
 
 namespace Restaurant.Api
 {
-    [Authorize(Roles = "Admin")]
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(Roles = "Admin")]
     public class AdminReservationsController : ControllerBase
     {
         private readonly AppDbContext _context;

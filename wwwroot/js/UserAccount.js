@@ -20,7 +20,7 @@ document.getElementById("loginForm")?.addEventListener("submit", async function 
     }
 });
 
-document.getElementById("logoutBtn")?.addEventListener("click", async function () {
+document.getElementById("logout").addEventListener("click", async function () {
     const response = await fetch("/api/auth/logout", {
         method: "POST",
         credentials: "include"
@@ -28,5 +28,7 @@ document.getElementById("logoutBtn")?.addEventListener("click", async function (
 
     if (response.ok) {
         window.location.href = "/Account/Login";
+    } else {
+        alert("Ошибка выхода из системы");
     }
 });
