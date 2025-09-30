@@ -26,10 +26,10 @@ async function loadUsers() {
                 </td>
                 <td>
                     <a href="/Admin/EditUser/${user.id}" class="btn p-0 border-0 bg-transparent">
-                        <img src="/image/pen.png" alt="Редактировать" style="width:30px;height:30px;">
+                        <img src="/images/pen.png" alt="Редактировать" style="width:30px;height:30px;">
                     </a>
                     <button class="btn p-0 border-0 bg-transparent" onclick="deleteUser(${user.id})">
-                        <img src="/image/delete.png" alt="Удалить" style="width:30px;height:30px;">
+                        <img src="/images/delete.png" alt="Удалить" style="width:30px;height:30px;">
                     </button>
                 </td>
             `;

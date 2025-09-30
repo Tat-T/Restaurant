@@ -11,27 +11,34 @@ namespace Restaurant.Api
     public class AdminReservationsController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly ILogger<AdminReservationsController> _logger;
+        private readonly IWebHostEnvironment _env;
 
-        public AdminReservationsController(AppDbContext context)
+        public AdminReservationsController(AppDbContext context,
+                                   ILogger<AdminReservationsController> logger,
+                                   IWebHostEnvironment env)
         {
             _context = context;
+            _logger = logger;
+            _env = env;
         }
 
-        // Получение конкретного бронирования по ID
-        [HttpGet("{id}")]
+        // Получение конкретного бронирования по ID + список доступных дат/времени
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetReservation(int id)
         {
             var reservation = await _context.Reservations.FindAsync(id);
-            if (reservation == null) return NotFound();
+            if (reservation == null)
+                return NotFound(new { message = "Бронирование не найдено" });
 
             var today = DateTime.Today;
 
             var availableDates = Enumerable.Range(0, 7)
-                                           .Select(offset => today.AddDays(offset))
+                                           .Select(offset => today.AddDays(offset).ToString("yyyy-MM-dd"))
                                            .ToList();
 
-            var availableTimes = Enumerable.Range(12, 11)
-                                           .Select(h => new TimeSpan(h, 0, 0))
+            var availableTimes = Enumerable.Range(12, 11) // 12:00–22:00
+                                           .Select(h => new TimeSpan(h, 0, 0).ToString(@"hh\:mm"))
                                            .ToList();
 
             var reservations = await _context.Reservations.ToListAsync();
@@ -46,18 +53,18 @@ namespace Restaurant.Api
             return Ok(new
             {
                 reservation,
-                availableDates = availableDates.Select(d => d.ToString("yyyy-MM-dd")),
-                availableTimes = availableTimes.Select(t => t.ToString(@"hh\:mm")),
+                availableDates,
+                availableTimes,
                 bookedSlots
             });
         }
 
-
         // Редактирование бронирования
-        [HttpPut("{id}")]
+        [HttpPut("{id:int}")]
         public async Task<IActionResult> UpdateReservation(int id, [FromBody] Reservation updated)
         {
-            if (id != updated.Id) return BadRequest();
+            if (id != updated.Id)
+                return BadRequest(new { message = "ID в запросе и объекте не совпадают" });
 
             var exists = await _context.Reservations.AnyAsync(r =>
                 r.Id != id &&
@@ -69,6 +76,7 @@ namespace Restaurant.Api
                 return Conflict(new { message = "Этот слот уже забронирован" });
 
             _context.Entry(updated).State = EntityState.Modified;
+
             try
             {
                 await _context.SaveChangesAsync();
@@ -76,7 +84,7 @@ namespace Restaurant.Api
             catch (DbUpdateConcurrencyException)
             {
                 if (!await _context.Reservations.AnyAsync(r => r.Id == id))
-                    return NotFound();
+                    return NotFound(new { message = "Бронирование не найдено" });
                 throw;
             }
 
@@ -98,10 +106,10 @@ namespace Restaurant.Api
             _context.Reservations.Add(newReservation);
             await _context.SaveChangesAsync();
 
-            return Ok(new { message = "Бронирование успешно создано" });
+            return CreatedAtAction(nameof(GetReservation), new { id = newReservation.Id }, newReservation);
         }
-        
-        // Удаление бронирования
+
+         // DELETE: api/AdminReservations/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteReservation(int id)
         {
@@ -110,11 +118,11 @@ namespace Restaurant.Api
             {
                 return NotFound(new { message = "Бронирование не найдено" });
             }
-    
+
             _context.Reservations.Remove(reservation);
             await _context.SaveChangesAsync();
-    
-            return Ok(new { message = "Бронирование успешно удалено" });
+
+            return NoContent();
         }
-        }
+    }
 }

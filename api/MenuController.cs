@@ -29,7 +29,7 @@ namespace Restaurant.Api
                     d.DishID,
                     d.DishName,
                     d.Price,
-                    DishImage = string.IsNullOrEmpty(d.DishImage) ? "/image/dishes/no-photo.jpg" : d.DishImage,
+                    DishImage = string.IsNullOrEmpty(d.DishImage) ? "/images/dishes/no-photo.jpg" : d.DishImage,
                     Ingredients = _context.DishIngredients
                         .Where(di => di.DishID == d.DishID)
                         .Join(_context.Ingredients,
@@ -66,20 +66,20 @@ namespace Restaurant.Api
 
         // ---------------- CREATE ----------------
         [HttpPost]
-        public async Task<IActionResult> CreateDish([FromForm] DishInputModel model, IFormFile? image)
+        public async Task<IActionResult> CreateDish([FromForm] DishInputModel model, IFormFile? images)
         {
-            string imagePath = "/image/no-photo.jpg";
+            string imagePath = "/images/no-photo.jpg";
 
-            if (image != null)
+            if (images != null)
             {
-                var fileName = $"{Guid.NewGuid()}{Path.GetExtension(image.FileName)}";
-                var filePath = Path.Combine(_env.WebRootPath, "image", fileName);
+                var fileName = $"{Guid.NewGuid()}{Path.GetExtension(images.FileName)}";
+                var filePath = Path.Combine(_env.WebRootPath, "images", fileName);
                 Directory.CreateDirectory(Path.GetDirectoryName(filePath)!);
 
                 using var stream = new FileStream(filePath, FileMode.Create);
-                await image.CopyToAsync(stream);
+                await images.CopyToAsync(stream);
 
-                imagePath = "/image/" + fileName;
+                imagePath = "/images/" + fileName;
             }
 
             var dish = new Dishes
@@ -120,45 +120,106 @@ namespace Restaurant.Api
         }
 
         // ---------------- UPDATE ----------------
+        // [HttpPut("{id}")]
+        // public async Task<IActionResult> UpdateDish(int id, [FromForm] DishInputModel model, IFormFile? images, bool removeImage = false)
+        // {
+        //     var dish = await _context.Dishes.Include(d => d.DishIngredients).FirstOrDefaultAsync(d => d.DishID == id);
+        //     if (dish == null) return NotFound();
+
+        //     dish.DishName = model.DishName;
+        //     dish.Price = model.Price;
+
+        //     // удаление/замена картинки
+        //     if (removeImage && !string.IsNullOrEmpty(dish.DishImage))
+        //     {
+        //         var oldPath = Path.Combine(_env.WebRootPath, dish.DishImage.TrimStart('/'));
+        //         if (System.IO.File.Exists(oldPath)) System.IO.File.Delete(oldPath);
+        //         dish.DishImage = null;
+        //     }
+        //     else if (images != null)
+        //     {
+        //         var fileName = $"{Guid.NewGuid()}{Path.GetExtension(images.FileName)}";
+        //         var filePath = Path.Combine(_env.WebRootPath, "images", fileName);
+        //         using var stream = new FileStream(filePath, FileMode.Create);
+        //         await images.CopyToAsync(stream);
+        //         dish.DishImage = "/images/" + fileName;
+        //     }
+
+        //     // обновление ингредиентов
+        //     _context.DishIngredients.RemoveRange(dish.DishIngredients);
+        //     dish.DishIngredients = new List<DishIngredients>();
+
+        //     var ingredients = model.IngredientNames.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        //     foreach (var name in ingredients)
+        //     {
+        //         var ing = await _context.Ingredients.FirstOrDefaultAsync(i => i.IngredientName.ToLower() == name.ToLower());
+        //         if (ing == null)
+        //         {
+        //             ing = new Ingredients { IngredientName = name };
+        //             _context.Ingredients.Add(ing);
+        //             await _context.SaveChangesAsync();
+        //         }
+        //         dish.DishIngredients.Add(new DishIngredients
+        //         {
+        //             DishID = dish.DishID,
+        //             IngredientID = ing.IngredientID
+        //         });
+        //     }
+
+        //     await _context.SaveChangesAsync();
+        //     return Ok(new { message = "Блюдо обновлено" });
+        // }
+
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateDish(int id, [FromForm] DishInputModel model, IFormFile? image, bool removeImage = false)
+        public async Task<IActionResult> UpdateDish(int id, [FromForm] DishInputModel model, IFormFile? images)
         {
-            var dish = await _context.Dishes.Include(d => d.DishIngredients).FirstOrDefaultAsync(d => d.DishID == id);
+            var dish = await _context.Dishes
+                .Include(d => d.DishIngredients)
+                .FirstOrDefaultAsync(d => d.DishID == id);
+
             if (dish == null) return NotFound();
 
             dish.DishName = model.DishName;
             dish.Price = model.Price;
 
             // удаление/замена картинки
-            if (removeImage && !string.IsNullOrEmpty(dish.DishImage))
+            if (model.RemoveImage && !string.IsNullOrEmpty(dish.DishImage))
             {
                 var oldPath = Path.Combine(_env.WebRootPath, dish.DishImage.TrimStart('/'));
-                if (System.IO.File.Exists(oldPath)) System.IO.File.Delete(oldPath);
+                if (System.IO.File.Exists(oldPath))
+                    System.IO.File.Delete(oldPath);
+
                 dish.DishImage = null;
             }
-            else if (image != null)
+            else if (images != null)
             {
-                var fileName = $"{Guid.NewGuid()}{Path.GetExtension(image.FileName)}";
-                var filePath = Path.Combine(_env.WebRootPath, "image", fileName);
+                var fileName = $"{Guid.NewGuid()}{Path.GetExtension(images.FileName)}";
+                var filePath = Path.Combine(_env.WebRootPath, "images", fileName);
                 using var stream = new FileStream(filePath, FileMode.Create);
-                await image.CopyToAsync(stream);
-                dish.DishImage = "/image/" + fileName;
+                await images.CopyToAsync(stream);
+
+                dish.DishImage = "/images/" + fileName;
             }
 
             // обновление ингредиентов
             _context.DishIngredients.RemoveRange(dish.DishIngredients);
             dish.DishIngredients = new List<DishIngredients>();
 
-            var ingredients = model.IngredientNames.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+            var ingredients = model.IngredientNames
+                .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+
             foreach (var name in ingredients)
             {
-                var ing = await _context.Ingredients.FirstOrDefaultAsync(i => i.IngredientName.ToLower() == name.ToLower());
+                var ing = await _context.Ingredients
+                    .FirstOrDefaultAsync(i => i.IngredientName.ToLower() == name.ToLower());
+
                 if (ing == null)
                 {
                     ing = new Ingredients { IngredientName = name };
                     _context.Ingredients.Add(ing);
                     await _context.SaveChangesAsync();
                 }
+
                 dish.DishIngredients.Add(new DishIngredients
                 {
                     DishID = dish.DishID,
@@ -168,11 +229,13 @@ namespace Restaurant.Api
 
             await _context.SaveChangesAsync();
             return Ok(new { message = "Блюдо обновлено" });
-        }
+    
+}
+
 
         // ---------------- DELETE ----------------
-        
-         [HttpDelete("{id}")]
+
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDish(int id)
         {
             var dish = await _context.Dishes
@@ -202,5 +265,6 @@ namespace Restaurant.Api
         public string DishName { get; set; } = string.Empty;
         public decimal Price { get; set; }
         public string IngredientNames { get; set; } = string.Empty;
+        public bool RemoveImage { get; set; }
     }
 }

@@ -2,7 +2,7 @@ body{
     background-color:rgb(222, 222, 219);
     height: 90vh;
     text-align: center;
-    background: url('./image/fon.jpg') no-repeat;
+    background: url('./images/fon.jpg') no-repeat;
     background-size: cover ;
 }
 .container, .menu, .form{

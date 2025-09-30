@@ -1,19 +1,24 @@
 @page
-@model DeleteReservationModel
 @{
-    ViewData["Title"] = "Удаление бронирования";
+    @* Layout = "_Layout"; *@
+    Layout = "/Pages/Shared/_Layout.cshtml";
 }
+<div class="container rounded-4 text-center p-3 mt-3">
+    <div class="container  rounded-4">
+        <h3 class="pt-4">Удалить бронирование ?</h3>
 
-<h2>Вы уверены, что хотите удалить это бронирование?</h2>
-
-<div id="reservationInfo"></div>
-
-<form id="deleteForm">
-    <input type="hidden" id="reservationId" />
-    <button type="submit" class="btn btn-danger">Удалить</button>
-    <a href="/Admin/ZakazAdmin" class="btn btn-secondary">Отмена</a>
-</form>
-
-@* @section Scripts {
-    <script src="~/js/deleteReservation.js"></script>
-} *@
+        <form class="pb-4" id="deleteForm">
+            <input type="hidden" id="reservationId" />
+            <div id="reservationInfo"></div>
+            <button type="submit" class="btn btn-danger">Удалить</button>
+            <a href="/Admin/ZakazAdmin" class="btn btn-secondary">Назад</a>
+        </form>
+    </div>
+</div>
+<script src="/js/deleteReservation.js"></script>
+<script>
+    // Пример: подставим id из query (?id=123)
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get("id");
+    if (id) loadReservation(id);
+</script>

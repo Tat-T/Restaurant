@@ -2,13 +2,16 @@
 @model MyRazorApp.Pages.IndexModel
 @{
     ViewData["Title"] = "Home page";
-    Layout = "/Pages/Shared/_LayoutRest.cshtml";
+    Layout = "/Pages/Shared/_Layout.cshtml";
 }
 
-<div class="container rounded-4 text-center p-3 w-50 mt-3" >
+<div class="container rounded-4 text-center p-3 w-50 mt-3">
     <div class="container rounded-2 p-2">
         <h3 class="fw-bold"></h3>
         <p><strong>Заявка отправлена</strong>
         </p>
+        <div class="text-center">
+            <a asp-page="/Admin/ZakazAdmin" class="btn btn-dark mb-4">В "Список заказов"</a>
+        </div>
     </div>
 </div>

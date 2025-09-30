@@ -1,7 +1,7 @@
 @page "{id?}"
 @{
     ViewData["Title"] = "Редактировать блюдо";
-    Layout = "/Pages/Shared/_LayoutRest.cshtml";
+    Layout = "/Pages/Shared/_Layout.cshtml";
 }
 
 <div class="container mt-5 p-3 rounded-4 w-50">
@@ -26,11 +26,11 @@
 
         <div class="mb-3">
             <label class="form-label">Новая картинка</label>
-            <input type="file" name="image" class="form-control border border-secondary focus-ring focus-ring-dark" />
+            <input type="file" name="images" class="form-control border border-secondary focus-ring focus-ring-dark" />
         </div>
 
         <div class="form-check mb-3">
-            <input type="checkbox" name="removeImage" class="form-check-input bg-dark border border-secondary focus-ring focus-ring-dark" id="removeImage" />
+            <input type="checkbox" name="RemoveImage" class="form-check-input bg-dark border border-secondary focus-ring focus-ring-dark" id="removeImage" />
             <label for="removeImage" class="form-check-label">Удалить картинку</label>
         </div>
 
