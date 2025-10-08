@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const currentImageContainer = document.getElementById("currentImageContainer");
     const removeCheckbox = document.getElementById("removeImage");
 
-    // Загружаем данные блюда
+    // --- Загрузка данных блюда ---
     const response = await fetch(`/api/Menu/${dishId}`);
     if (response.ok) {
         const dish = await response.json();
@@ -20,10 +20,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         document.getElementById("IngredientNames").value = dish.ingredients.join(", ");
 
         if (dish.dishImage) {
-            currentImageContainer.innerHTML =
-                `<img src="${dish.dishImage}" alt="Текущее изображение" style="max-width:200px;">`;
-
-            // Если есть картинка, чекбокс по умолчанию не отмечен
+            currentImageContainer.innerHTML = `
+                <img src="${dish.dishImage}" alt="Текущее изображение" style="max-width:200px;">
+            `;
             removeCheckbox.checked = false;
         } else {
             currentImageContainer.innerHTML = "<p>Картинка отсутствует</p>";
@@ -34,11 +33,14 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
     }
 
-    // Сабмит формы
+    // --- Сабмит формы ---
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
         const formData = new FormData(form);
+
+        
+        formData.set("RemoveImage", removeCheckbox.checked);
 
         const res = await fetch(`/api/Menu/${dishId}`, {
             method: "PUT",
@@ -49,8 +51,12 @@ document.addEventListener("DOMContentLoaded", async () => {
             alert("Блюдо обновлено!");
             window.location.href = "/Admin/MenuAdmin";
         } else {
-            const err = await res.json();
-            alert(err.message || "Ошибка при сохранении");
+            try {
+                const err = await res.json();
+                alert(err.message || "Ошибка при сохранении");
+            } catch {
+                alert("Ошибка при сохранении");
+            }
         }
     });
 });
