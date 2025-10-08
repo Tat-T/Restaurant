@@ -1,16 +1,45 @@
 @page "{id:int}"
-@model MyRazorApp.Pages.Admin.DeleteUserModel
 @{
     Layout = "/Pages/Shared/_Layout.cshtml";
     ViewData["Title"] = "Удаление пользователя";
 }
 
 <div class="container mt-5">
-    <h3>Удалить пользователя @Model.User?.UserName?</h3>
+    <h3 id="deleteTitle">Удалить пользователя</h3>
     <p>Вы действительно хотите удалить этого пользователя? Это действие нельзя отменить.</p>
 
-    <form method="post">
+    <form id="deleteForm">
+        <input type="hidden" id="userId" />
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped mt-3">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Фамилия</th>
+                        <th>Имя</th>
+                        <th>Отчество</th>
+                        <th>Логин</th>
+                        <th>Email</th>
+                        <th>Телефон</th>
+                        <th>Роль</th>
+                        <th>Активен</th>
+                    </tr>
+                </thead>
+                <tbody id="userInfo">
+                    <!-- данные загрузит JS -->
+                </tbody>
+            </table>
+        </div>
+
         <button type="submit" class="btn btn-danger">Удалить</button>
-        <a asp-page="/Admin/AdminUsers" class="btn btn-secondary">Отмена</a>
+        <a href="/Admin/AdminUsers" class="btn btn-secondary">Отмена</a>
     </form>
 </div>
+
+@section Scripts {
+    <script src="~/js/adminUsersDelete.js"></script>
+    <script>
+        const userId = @((int)ViewContext.RouteData.Values["id"]);
+        if (userId) loadUser(userId);
+    </script>
+}

@@ -1,12 +1,27 @@
 @page
 @{
-    @* Layout = "_Layout"; *@
     Layout = "/Pages/Shared/_Layout.cshtml";
 }
 <div class="container rounded-4 text-center p-3 mt-3">
     <div class="container  rounded-4">
         <h3 class="pt-4">Удалить бронирование ?</h3>
-
+        <table class="table table-bordered table-striped mt-3">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Имя</th>
+                    <th>Email</th>
+                    <th>Телефон</th>
+                    <th>Дата</th>
+                    <th>Время</th>
+                    <th>Гости</th>
+                    <th>Сообщение</th>
+                </tr>
+            </thead>
+            <tbody id="reservationInfo">
+                <!-- данные загрузятся JS -->
+            </tbody>
+        </table>
         <form class="pb-4" id="deleteForm">
             <input type="hidden" id="reservationId" />
             <div id="reservationInfo"></div>
@@ -17,7 +32,6 @@
 </div>
 <script src="/js/deleteReservation.js"></script>
 <script>
-    // Пример: подставим id из query (?id=123)
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get("id");
     if (id) loadReservation(id);

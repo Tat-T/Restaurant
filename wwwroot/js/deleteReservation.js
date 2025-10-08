@@ -3,8 +3,9 @@ async function loadReservation(id) {
     const res = await fetch(`/api/reservations/${id}`, { credentials: 'same-origin' });
     if (!res.ok) {
         document.getElementById('reservationInfo').innerHTML =
-            `<p class="text-danger">Ошибка: бронирование не найдено (status ${res.status}).</p>`;
+            `<tr><td colspan="8" class="text-danger">Ошибка: бронирование не найдено (status ${res.status}).</td></tr>`;
         console.error('Get reservation failed', res.status, await res.text().catch(()=>null));
+        document.querySelector('#deleteForm button[type="submit"]').disabled = true;
         return;
     }
 
@@ -14,13 +15,26 @@ async function loadReservation(id) {
 
     document.getElementById('reservationId').value = reservation.id;
 
+    // преобразуем дату и время
+    const date = new Date(reservation.reservationDate);
+    const time = reservation.reservationTime
+        ? new Date(`1970-01-01T${reservation.reservationTime}`).toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })
+        : '';
+
     document.getElementById('reservationInfo').innerHTML = `
-        <p><strong>Имя:</strong> ${reservation.name}</p>
-        <p><strong>Email:</strong> ${reservation.email}</p>
-        <p><strong>Дата:</strong> ${new Date(reservation.reservationDate).toLocaleDateString('ru-RU')}</p>
-        <p><strong>Гости:</strong> ${reservation.guests}</p>
+        <tr>
+            <td>${reservation.id}</td>
+            <td>${reservation.name}</td>
+            <td>${reservation.email}</td>
+            <td>${reservation.phone ?? '-'}</td>
+            <td>${date.toLocaleDateString('ru-RU')}</td>
+            <td>${time}</td>
+            <td>${reservation.guests}</td>
+            <td>${reservation.message ?? '-'}</td>
+        </tr>
     `;
 }
+
 
 document.getElementById('deleteForm').addEventListener('submit', async (e) => {
     e.preventDefault();
