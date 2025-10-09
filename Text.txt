@@ -35,3 +35,6 @@ dotnet ef database update
 
 ----------------------------
 Вход работает через fetch → API → редирект в JS.
+
+---------вывести дерево проекта----------
+tree /f > project_structure.txt
