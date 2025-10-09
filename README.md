@@ -33,7 +33,7 @@
 
 ## Запуск и установка
 
-1. Клонирование репозитория
+1. Клонирование репозитория (ветка EFIdentity)
 
 `git clone https://github.com/Tat-T/Restaurant.git`
 
