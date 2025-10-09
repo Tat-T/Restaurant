@@ -2,7 +2,7 @@
 Это веб-приложение для управления рестораном, включающее бронирование столиков, администрирование меню и пользователей, а также REST API для взаимодействия с внешними клиентами.
 Проект реализован на ASP.NET Core 9.0 с использованием Entity Framework Core и Identity.
 
-<img src="wwwroot/images/home_1.jpg" width="400">
+<img src="wwwroot/images/home_1.jpg" width="500">
 
 ## Возможности
 ### Пользователи:
@@ -63,4 +63,4 @@ https://localhost:5015
 
 ### Пример API-запроса
 
-<img src="wwwroot/images/insomnia_2.jpg" width="400">
+<img src="wwwroot/images/insomnia_2.jpg" width="500">
