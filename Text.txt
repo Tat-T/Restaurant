@@ -38,3 +38,5 @@ dotnet ef database update
 
 ---------вывести дерево проекта----------
 tree /f > project_structure.txt
+-----------------------------------------
+dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer

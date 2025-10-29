@@ -39,6 +39,8 @@
 
 `cd Restaurant`
 
+`git checkout EFIdentity`
+
 2. Настройка базы данных
 
 Отредактируй строку подключения в appsettings.json:
