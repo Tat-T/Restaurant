@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Authorization;
 
-[Authorize(Roles = "Administrator")]
+//[Authorize(Roles = "Administrator")]
 public class DishViewModel
 {
     public int DishID { get; set; }

@@ -5,7 +5,7 @@ using MyRazorApp.Data;
 
 namespace Restaurant.Api
 {
-    [Authorize(Roles = "Admin")]
+    // [Authorize(Roles = "Admin")]
     [ApiController]
     [Route("api/[controller]")]
     public class MenuController : ControllerBase

@@ -7,7 +7,7 @@ using MyRazorApp.Models;
 
 namespace Restaurant.Api
 {
-    [Authorize(Roles = "Admin")]
+    // [Authorize(Roles = "Admin")]
     [ApiController]
     [Route("api/[controller]")]
     public class UsersController : ControllerBase
@@ -26,8 +26,8 @@ namespace Restaurant.Api
         [HttpGet("roles")]
         public async Task<IActionResult> GetRoles()
         {
-            var roles = await _context.Roles
-                .Select(r => new { id = r.Id, name = r.Name })
+            var roles = await _context
+                .Roles.Select(r => new { id = r.Id, name = r.Name })
                 .ToListAsync();
 
             return Ok(roles);
@@ -37,10 +37,10 @@ namespace Restaurant.Api
         [HttpGet]
         public async Task<IActionResult> GetAllUsers()
         {
-            var users = await _context.Users
-                .Include(u => u.UserRole)
+            var users = await _context
+                .Users.Include(u => u.UserRole)
                 .AsNoTracking()
-                .Select(u => new 
+                .Select(u => new
                 {
                     u.Id,
                     u.SurName,
@@ -52,7 +52,7 @@ namespace Restaurant.Api
                     u.Birthdate,
                     u.CreationDate,
                     u.IsActive,
-                    UserRole = u.UserRole != null ? new { u.UserRole.Id, u.UserRole.Name } : null
+                    UserRole = u.UserRole != null ? new { u.UserRole.Id, u.UserRole.Name } : null,
                 })
                 .ToListAsync();
 
@@ -64,11 +64,11 @@ namespace Restaurant.Api
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetUser(int id)
         {
-            var user = await _context.Users
-                .Include(u => u.UserRole)
+            var user = await _context
+                .Users.Include(u => u.UserRole)
                 .AsNoTracking()
                 .Where(u => u.Id == id)
-                .Select(u => new 
+                .Select(u => new
                 {
                     u.Id,
                     u.SurName,
@@ -80,11 +80,12 @@ namespace Restaurant.Api
                     u.Birthdate,
                     u.CreationDate,
                     u.IsActive,
-                    UserRole = u.UserRole != null ? new { u.UserRole.Id, u.UserRole.Name } : null
+                    UserRole = u.UserRole != null ? new { u.UserRole.Id, u.UserRole.Name } : null,
                 })
                 .FirstOrDefaultAsync();
 
-            if (user == null) return NotFound(new { message = "Пользователь не найден" });
+            if (user == null)
+                return NotFound(new { message = "Пользователь не найден" });
 
             return Ok(user);
         }
@@ -94,7 +95,8 @@ namespace Restaurant.Api
         [HttpPost]
         public async Task<IActionResult> AddUser([FromBody] AddUserDto model)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
             var user = new User
             {
@@ -107,7 +109,7 @@ namespace Restaurant.Api
                 Birthdate = model.Birthdate,
                 IdRole = model.IdRole,
                 IsActive = model.IsActive,
-                CreationDate = DateTime.UtcNow
+                CreationDate = DateTime.UtcNow,
             };
 
             user.PasswordHash = _passwordHasher.HashPassword(user, model.Password);
@@ -123,10 +125,12 @@ namespace Restaurant.Api
         [HttpPut("{id:int}")]
         public async Task<IActionResult> UpdateUser(int id, [FromBody] UpdateUserDto model)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
-            if (user == null) return NotFound(new { message = "Пользователь не найден" });
+            if (user == null)
+                return NotFound(new { message = "Пользователь не найден" });
 
             // обновляем данные
             user.SurName = model.SurName;
@@ -144,6 +148,13 @@ namespace Restaurant.Api
             {
                 user.PasswordHash = _passwordHasher.HashPassword(user, model.NewPassword);
             }
+            // else if (string.IsNullOrEmpty(user.PasswordHash))
+            // {
+            //     // защита от пустого пароля, чтобы не обнулить
+            //     user.PasswordHash =
+            //         user.PasswordHash
+            //         ?? throw new InvalidOperationException("PasswordHash cannot be null");
+            // }
 
             _context.Users.Update(user);
             await _context.SaveChangesAsync();
@@ -157,7 +168,8 @@ namespace Restaurant.Api
         public async Task<IActionResult> DeleteUser(int id)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
-            if (user == null) return NotFound(new { message = "Пользователь не найден" });
+            if (user == null)
+                return NotFound(new { message = "Пользователь не найден" });
 
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();

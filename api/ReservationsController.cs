@@ -7,7 +7,7 @@ using MyRazorApp.Models;
 
 namespace Restaurant.Api
 {
-    [Authorize]
+    // [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class ReservationsController : ControllerBase
@@ -21,29 +21,41 @@ namespace Restaurant.Api
             _userManager = userManager;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var reservations = await _context
+                .Reservations.OrderByDescending(r => r.CreatedAt)
+                .ToListAsync();
+
+            return Ok(reservations);
+        }
+
         [HttpGet("slots")]
         public async Task<IActionResult> GetSlots()
         {
             var today = DateTime.Today;
 
-            var dates = Enumerable.Range(0, 7)
-                                  .Select(i => today.AddDays(i).ToString("yyyy-MM-dd"))
-                                  .ToList();
+            var dates = Enumerable
+                .Range(0, 7)
+                .Select(i => today.AddDays(i).ToString("yyyy-MM-dd"))
+                .ToList();
 
-            var times = Enumerable.Range(12, 11)
-                                  .Select(h => new TimeSpan(h, 0, 0).ToString(@"hh\:mm"))
-                                  .ToList();
+            var times = Enumerable
+                .Range(12, 11)
+                .Select(h => new TimeSpan(h, 0, 0).ToString(@"hh\:mm"))
+                .ToList();
 
-            var reservations = await _context.Reservations
-                                             .Where(r => r.ReservationDate >= today)
-                                             .ToListAsync();
+            var reservations = await _context
+                .Reservations.Where(r => r.ReservationDate >= today)
+                .ToListAsync();
 
             var booked = reservations
-                         .GroupBy(r => r.ReservationDate.ToString("yyyy-MM-dd"))
-                         .ToDictionary(
-                             g => g.Key,
-                             g => g.Select(r => r.ReservationTime.ToString(@"hh\:mm")).ToList()
-                         );
+                .GroupBy(r => r.ReservationDate.ToString("yyyy-MM-dd"))
+                .ToDictionary(
+                    g => g.Key,
+                    g => g.Select(r => r.ReservationTime.ToString(@"hh\:mm")).ToList()
+                );
 
             // Данные авторизованного пользователя
             User? user = null;
@@ -52,7 +64,15 @@ namespace Restaurant.Api
                 user = await _userManager.GetUserAsync(User);
             }
 
-            return Ok(new { availableDates = dates, availableTimes = times, bookedSlots = booked, user });
+            return Ok(
+                new
+                {
+                    availableDates = dates,
+                    availableTimes = times,
+                    bookedSlots = booked,
+                    user,
+                }
+            );
         }
 
         [HttpPost]
@@ -62,8 +82,8 @@ namespace Restaurant.Api
                 return BadRequest(new { message = "Некорректные данные" });
 
             bool exists = await _context.Reservations.AnyAsync(r =>
-                r.ReservationDate == reservation.ReservationDate &&
-                r.ReservationTime == reservation.ReservationTime
+                r.ReservationDate == reservation.ReservationDate
+                && r.ReservationTime == reservation.ReservationTime
             );
 
             if (exists)
@@ -85,13 +105,15 @@ namespace Restaurant.Api
 
             var today = DateTime.Today;
 
-            var availableDates = Enumerable.Range(0, 7)
-                                           .Select(offset => today.AddDays(offset).ToString("yyyy-MM-dd"))
-                                           .ToList();
+            var availableDates = Enumerable
+                .Range(0, 7)
+                .Select(offset => today.AddDays(offset).ToString("yyyy-MM-dd"))
+                .ToList();
 
-            var availableTimes = Enumerable.Range(12, 11) // 12:00–22:00
-                                           .Select(h => new TimeSpan(h, 0, 0).ToString(@"hh\:mm"))
-                                           .ToList();
+            var availableTimes = Enumerable
+                .Range(12, 11) // 12:00–22:00
+                .Select(h => new TimeSpan(h, 0, 0).ToString(@"hh\:mm"))
+                .ToList();
 
             var reservations = await _context.Reservations.ToListAsync();
 
@@ -102,13 +124,15 @@ namespace Restaurant.Api
                     g => g.Select(r => r.ReservationTime.ToString(@"hh\:mm")).ToList()
                 );
 
-            return Ok(new
-            {
-                reservation,
-                availableDates,
-                availableTimes,
-                bookedSlots
-            });
+            return Ok(
+                new
+                {
+                    reservation,
+                    availableDates,
+                    availableTimes,
+                    bookedSlots,
+                }
+            );
         }
 
         [HttpDelete("{id}")]
@@ -125,5 +149,5 @@ namespace Restaurant.Api
 
             return NoContent();
         }
-}
+    }
 }
