@@ -149,5 +149,29 @@ namespace Restaurant.Api
 
             return NoContent();
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, [FromBody] Reservation updated)
+        {
+            if (updated == null || id != updated.Id)
+                return BadRequest(new { message = "Некорректные данные" });
+
+            var reservation = await _context.Reservations.FindAsync(id);
+            if (reservation == null)
+                return NotFound(new { message = "Бронирование не найдено" });
+
+            // Обновляем поля
+            reservation.Name = updated.Name;
+            reservation.Email = updated.Email;
+            reservation.Phone = updated.Phone;
+            reservation.ReservationDate = updated.ReservationDate;
+            reservation.ReservationTime = updated.ReservationTime;
+            reservation.Guests = updated.Guests;
+            reservation.Message = updated.Message;
+
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Бронирование обновлено" });
+        }
     }
 }
