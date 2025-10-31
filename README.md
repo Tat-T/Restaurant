@@ -3,6 +3,12 @@
 Проект реализован на ASP.NET Core 9.0 с использованием Entity Framework Core и Identity.
 
 <img src="wwwroot/images/home_1.jpg" width="500">
+<img src="wwwroot/images/screensghot/Screenshot_1.jpg" width="500">
+<img src="wwwroot/images/screensghot/Screenshot_2.jpg" width="500">
+<img src="wwwroot/images/screensghot/Screenshot_4.jpg" width="500">
+<img src="wwwroot/images/screensghot/Screenshot_7.jpg" width="500">
+<img src="wwwroot/images/screensghot/Screenshot_10.jpg" width="500">
+<img src="wwwroot/images/screensghot/Screenshot_11.jpg" width="500">
 
 ## Возможности
 ### Пользователи:
@@ -62,6 +68,22 @@
 После запуска приложение будет доступно по адресу:
 
 https://localhost:5015
+
+### Данные для проверки
+
+```
+Вход для администратора:
+
+E-mail: admin@mail.ru
+
+Password: 3012867Lf
+
+Вход для авторизованного пользователя:
+
+E-mail: lara@mail.ru
+
+Password: 123456Lf
+```
 
 ### Пример API-запроса
 

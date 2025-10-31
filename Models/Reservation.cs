@@ -15,7 +15,7 @@ public class Reservation
     public string Email { get; set; } = string.Empty;
 
     [Required]
-    [Phone] // Проверка на телефон
+    // [Phone] // Проверка на телефон
     public string Phone { get; set; } = string.Empty;
 
     [Required]
