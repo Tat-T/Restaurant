@@ -111,13 +111,13 @@ Administrator:
 
 Email: admin@mail.ru
 
-Password: ********
+Password: ******** *Test credentials available upon request*
 
 User:
 
 Email: lara@mail.ru
 
-Password: ********
+Password: ******** *Test credentials available upon request*
 
 🔌 API Example
 <img src="wwwroot/images/insomnia_2.jpg" width="600">
