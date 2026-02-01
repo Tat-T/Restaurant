@@ -121,6 +121,7 @@ Password: ******** *Test credentials available upon request*
 
 🔌 API Example
 <img src="wwwroot/images/insomnia_2.jpg" width="600">
+
 👩‍💻 Author
 
 Tatyana Yantkova
