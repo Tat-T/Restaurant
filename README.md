@@ -1,90 +1,129 @@
-## Описание
-Это веб-приложение для управления рестораном, включающее бронирование столиков, администрирование меню и пользователей, а также REST API для взаимодействия с внешними клиентами.
-Проект реализован на ASP.NET Core 9.0 с использованием Entity Framework Core и Identity.
+# Restaurant Management System
 
-<img src="wwwroot/images/home_1.jpg" width="500">
-<img src="wwwroot/images/screensghot/Screenshot_1.jpg" width="500">
-<img src="wwwroot/images/screensghot/Screenshot_2.jpg" width="500">
-<img src="wwwroot/images/screensghot/Screenshot_4.jpg" width="500">
-<img src="wwwroot/images/screensghot/Screenshot_7.jpg" width="500">
-<img src="wwwroot/images/screensghot/Screenshot_10.jpg" width="500">
-<img src="wwwroot/images/screensghot/Screenshot_11.jpg" width="500">
+Web-based application for managing restaurant operations, including table reservations, menu administration, and user management.  
+The system also provides a RESTful API for interaction with external clients.
 
-## Возможности
-### Пользователи:
-- Регистрация и авторизация через систему Identity;
-- Создание бронирования.
-### Администратор:
-- Управление пользователями (добавление, редактирование, удаление);
+Built with ASP.NET Core 9.0 using Entity Framework Core and ASP.NET Identity.
 
-- Управление меню ресторана (добавление блюд, редактирование, удаление);
+---
 
-- Просмотр и управление бронированиями;
+## 📖 Project Description
 
-- Панель администратора для контроля контента и пользователей (добавление, редактирование, удаление).
+This project demonstrates backend-focused development of a database-driven web application with authentication, role-based access control, and REST API integration.
 
-## Технологический стек
+The application is designed to support two main roles: **User** and **Administrator**, each with different levels of access.
 
-| Компонент        | Используемая технология                         |
-|------------------|--------------------------------------------------|
-| Язык             | C#                                               |
-| Фреймворк        | ASP.NET Core 9.0                                |
-| ORM              | Entity Framework Core                           |
-| База данных      | Microsoft SQL Server                            |
-| Аутентификация   | ASP.NET Core Identity                           |
-| API              | REST API (ASP.NET Core Web API)                 |
-| Frontend         | Razor Pages, Bootstrap 5, JavaScript            |
-| Стилизация       | CSS (stylerest.css, styleadmin.css)             |
-| Менеджер пакетов | npm (Bootstrap)                                 |
+---
 
-## Запуск и установка
+## 🖼 Screenshots
 
-1. Клонирование репозитория (ветка EFIdentity)
+<img src="wwwroot/images/home_1.jpg" width="600">
+<img src="wwwroot/images/screensghot/Screenshot_1.jpg" width="600">
+<img src="wwwroot/images/screensghot/Screenshot_2.jpg" width="600">
+<img src="wwwroot/images/screensghot/Screenshot_4.jpg" width="600">
+<img src="wwwroot/images/screensghot/Screenshot_7.jpg" width="600">
+<img src="wwwroot/images/screensghot/Screenshot_10.jpg" width="600">
+<img src="wwwroot/images/screensghot/Screenshot_11.jpg" width="600">
 
-`git clone https://github.com/Tat-T/Restaurant.git`
+---
 
-`cd Restaurant`
+## 🚀 Features
 
-`git checkout EFIdentity`
+### 👤 User
+- Registration and authentication using ASP.NET Identity
+- Table reservation functionality
 
-2. Настройка базы данных
+### 🛠 Administrator
+- User management (create, edit, delete)
+- Restaurant menu management (add, edit, delete dishes)
+- View and manage reservations
+- Administrative dashboard for full content and user control
 
-Отредактируй строку подключения в appsettings.json:
+---
 
+## 🛠 Tech Stack
+
+| Component        | Technology                                   |
+|------------------|----------------------------------------------|
+| Language         | C#                                           |
+| Framework        | ASP.NET Core 9.0                             |
+| ORM              | Entity Framework Core                        |
+| Database         | Microsoft SQL Server                         |
+| Authentication  | ASP.NET Core Identity                        |
+| API              | REST API (ASP.NET Core Web API)              |
+| Frontend         | Razor Pages, Bootstrap 5, JavaScript         |
+| Styling          | CSS                                          |
+| Package Manager  | npm (Bootstrap)                              |
+
+---
+
+## 🧠 What I Implemented
+
+- Backend architecture and business logic
+- Authentication and role-based authorization
+- RESTful API endpoints
+- Database design and Entity Framework Core migrations
+- Middleware configuration (sessions, authentication, authorization)
+- Localization and culture configuration
+- Asynchronous programming patterns in .NET
+
+---
+
+## ▶️ How to Run the Project
+
+### 1. Clone the repository (EFIdentity branch)
+
+```
+git clone https://github.com/Tat-T/Restaurant.git
+cd Restaurant
+git checkout EFIdentity
+```
+
+### 2. Configure the database
+
+Edit the connection string in appsettings.json:
+
+```
 "ConnectionStrings": {
-    "DefaultConnection": "Server=DESKTOP-NKNKVEQ\\SQLEXPRESS;Database=RestaurantDB;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True"
-  }
+  "DefaultConnection": "Server=YOUR_SERVER;Database=RestaurantDB;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True"}
+  ```
 
-3. Применение миграций
+### 3. Apply migrations
+```
+dotnet ef database update
+```
 
-`dotnet ef database update`
+### 4. Run the application
+```
+dotnet run
+```
 
-4. Запуск проекта
+Or open the project in Visual Studio and press F5.
 
-`dotnet run`
-
-или открой проект в Visual Studio → F5
-
-После запуска приложение будет доступно по адресу:
-
+The application will be available at:
+```
 https://localhost:5015
-
-### Данные для проверки
-
-```
-Вход для администратора:
-
-E-mail: admin@mail.ru
-
-Password: 3012867Lf
-
-Вход для авторизованного пользователя:
-
-E-mail: lara@mail.ru
-
-Password: 123456Lf
 ```
 
-### Пример API-запроса
+🔑 Test Accounts
 
-<img src="wwwroot/images/insomnia_2.jpg" width="500">
+Administrator:
+
+Email: admin@mail.ru
+
+Password: ********
+
+User:
+
+Email: lara@mail.ru
+
+Password: ********
+
+🔌 API Example
+<img src="wwwroot/images/insomnia_2.jpg" width="600">
+👩‍💻 Author
+
+Tatyana Yantkova
+
+Junior Software Engineer (.NET)
+Focused on backend development and international projects
